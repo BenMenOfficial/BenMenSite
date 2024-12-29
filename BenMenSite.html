@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="LOGO 2025.jpg" />
+    <title>BenMen - האתר הרשמי</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Rubik", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(
+          to right,
+          #1a237e 20%,
+          #303f9f 20%,
+          #1a237e 80%,
+          #303f9f 80%
+        ); /* צבעי גרדיאנט בצדדים */
+        color: #e3f2fd;
+        direction: rtl;
+        line-height: 1.8;
+        font-size: 1.2em;
+      }
+
+      body {
+        font-family: "Rubik", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #1a237e;
+        color: #e3f2fd;
+        direction: rtl;
+        line-height: 1.8;
+        font-size: 1.2em;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px;
+        position: relative;
+      }
+
+      .container::before,
+      .container::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 10%;
+        background-image: url("path-to-pattern.png"); /* תמונת קו גיאומטרי */
+        background-repeat: repeat-y;
+      }
+
+      .container::before {
+        left: 0;
+      }
+
+      .container::after {
+        right: 0;
+      }
+
+      body {
+        font-family: "Rubik", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #1a237e; /* צבע רקע כחול כהה */
+        color: #e3f2fd; /* צבע טקסט בהיר */
+        direction: rtl;
+        line-height: 1.8;
+        font-size: 1.2em;
+        overflow-x: hidden; /* מונע גלילה אופקית */
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px;
+        position: relative;
+      }
+
+      .container::before,
+      .container::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        background-color: #bbdefb; /* צבע הקווים */
+        animation: lineAnimation 5s infinite alternate;
+      }
+
+      .container::before {
+        left: 0;
+      }
+
+      .container::after {
+        right: 0;
+      }
+
+      @keyframes lineAnimation {
+        0% {
+          height: 100%;
+        }
+        100% {
+          height: 50%;
+        }
+      }
+
+      body {
+        font-family: "Rubik", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #1a237e; /* צבע רקע כחול כהה */
+        color: #e3f2fd; /* צבע טקסט בהיר */
+        direction: rtl;
+        line-height: 1.8;
+        font-size: 1.2em;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background: linear-gradient(
+          90deg,
+          #303f9f,
+          #1a237e
+        ); /* צבעי כחול כהה */
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      header img {
+        max-width: 350px;
+        margin-bottom: 10px;
+      }
+
+      section {
+        background: #1e3c72; /* צבע כחול כהה יותר */
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      section h2 {
+        color: #bbdefb; /* צבע כחול בהיר לכותרות */
+        margin-bottom: 15px;
+        font-size: 1.8em;
+      }
+
+      ul {
+        list-style: disc inside;
+        margin: 0;
+        padding: 0;
+      }
+
+      ul li {
+        margin-bottom: 8px;
+      }
+
+      .button-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .button-container button {
+        background-color: #303f9f; /* צבע כחול כהה לכפתורים */
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 1.2em;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .button-container button:hover {
+        background-color: #1a237e; /* גוון כהה יותר להHover */
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        background: #1a237e; /* צבע כחול כהה footer */
+        color: white;
+        border-radius: 12px;
+        margin-top: 20px;
+      }
+      footer p {
+        color: #bbdefb;
+        font-weight: bold;
+      }
+      footer a {
+        color: #bbdefb; /* צבע כחול בהיר לקישורים */
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      iframe {
+        width: 100%;
+        height: 400px;
+        border: none;
+        border-radius: 12px;
+        margin: 20px 0;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          font-size: 1em;
+        }
+
+        header img {
+          max-width: 150px;
+        }
+
+        iframe {
+          height: 250px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <h1>
+          <img src="BENMEN Graphics.png" alt="בןמן גרפיקס" />
+          <br />ברוכים הבאים לאתר של BenMen
+        </h1>
+      </header>
+      <section>
+        <h2>מי אני?</h2>
+        <p>
+          בנימין קונין, בן 16 מתל אביב.<br />
+          בוגר תלמוד תורה 'אהלי מנחם' ובי"ס 'יחד'. <br />
+          אני אדם שאוהב ללמוד ולהתפתח כל הזמן. תמיד מחפש את הדרך לייעל את העבודה
+          שלי ולפשט תהליכים. עקרונות של עזרה הדדית, עמל, יגע והגעה למטרה מנחים
+          אותי.
+        </p>
+      </section>
+
+      <section>
+        <h2>מה אני עושה בחיים?</h2>
+        <p>
+          כיום לומד בישיבה לצעירים "חיי אברהם" ומרכז את זמני על לימוד תורה, אך
+          לצד הלימודים אני עוסק בגרפיקה, שיווק עסקים באינטרנט וממשיך ללמוד
+          ולהעשיר את עצמי בעוד דברים חדשים ופרקטים לחיים.
+          <br />
+          בקרוב אני מתכנן להרחיב את כישוריי בלימוד אנגלית מתקדמת יותר, בתחום
+          הפיתוח ובניית אתרים וללמוד גם שפות תכנות נוספות כדי לשדרג את העבודה
+          שלי.
+        </p>
+      </section>
+
+      <section>
+        <h2>התמחויות:</h2>
+        <ul>
+          <li>Google Business - ניהול ושיווק עסקים באינטרנט</li>
+          <li>Microsoft Word - מייקרוסופט וורד</li>
+          <li>Photopea - פוטופי</li>
+          <li>Microsoft Clipchamp - מייקרוסופט קליפצ'אמפ</li>
+          <li>Discord Servers Editor - בונה ומעצב שרתי דיסקורד</li>
+          <li>HTML - תכנות אתרים</li>
+          <li>CSS - עיצוב אתרים</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>תחביבים:</h2>
+        <p>
+          כיום התחביבים שלי הם ניהול פרוייקטים במוסדות, לעצב תמונות ודפי
+          אינטרנט. אני נהנה לגלות טכנולוגיות חדשות וליישם אותן בחיי היום-יום.
+          אני חובב טכנולוגיה וחדשנות. כל תחביב שקשור למחשבים, אפליקציות, או
+          פיתוח טכנולוגי מעניין אותי. אני נהנה לגלות כלים חדשים שיכולים לעזור לי
+          לשפר את העבודה שלי ולפתור בעיות בצורה יצירתית. <br />
+          בנוסף, אני חובבן גדול של מוזיקה חסידית.
+        </p>
+        <iframe
+          width="1045"
+          height="463"
+          src="https://www.youtube.com/embed/D_p6W4-ZPeg"
+          title="Shmueli Ungar - FIRE! - שמילי אונגר - פייער (Official Music Video)"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </section>
+      <section>
+        <h2>לפניות עסקיות / יצירת קשר</h2>
+        <form action="https://formspree.io/f/mdkkdngl" method="POST">
+          <label for="name">שם</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email">אימייל</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="message">הודעה</label>
+          <textarea id="message" name="message" required></textarea>
+
+          <button type="submit">שלח</button>
+        </form>
+      </section>
+
+      <style>
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        input,
+        textarea {
+          padding: 10px;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+        }
+
+        button {
+          font-family: "Rubik", sans-serif;
+          font-weight: bold;
+          padding: 12px;
+          background-color: #303f9f;
+          color: white;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+
+        button:hover {
+          background-color: #1a237e;
+        }
+      </style>
+      <footer>
+        <p>הדיסקורד שלי: BenMen#3938</p>
+        <p>
+          <a href="https://www.youtube.com/@BenMenOfficial" target="_blank">
+            הערוץ יוטיוב הרשמי שלי - My Official YouTube Channel
+          </a>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
