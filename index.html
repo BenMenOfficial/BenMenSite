@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="favicon.ico" />
     <title>BenMen - האתר הרשמי</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -307,7 +306,11 @@
       </section>
       <section>
         <h2>לפניות עסקיות / יצירת קשר</h2>
-        <form action="https://formspree.io/f/mdkkdngl" method="POST">
+        <form
+          id="contact-form"
+          action="https://formspree.io/f/mdkkdngl"
+          method="POST"
+        >
           <label for="name">שם</label>
           <input type="text" id="name" name="name" required />
 
@@ -319,8 +322,43 @@
 
           <button type="submit">שלח</button>
         </form>
+        <p
+          id="confirmation-message"
+          style="display: none; color: #4caf50; font-weight: bold"
+        >
+          תודה על פנייתך! הודעתך נשלחה בהצלחה.
+        </p>
       </section>
+      <script>
+        const form = document.getElementById("contact-form");
+        const confirmationMessage = document.getElementById(
+          "confirmation-message"
+        );
 
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault(); // מונע את פעולת השליחה הרגילה של הטופס
+
+          const formData = new FormData(form);
+          try {
+            const response = await fetch(form.action, {
+              method: form.method,
+              body: formData,
+              headers: {
+                Accept: "application/json",
+              },
+            });
+
+            if (response.ok) {
+              form.reset(); // מנקה את השדות בטופס
+              confirmationMessage.style.display = "block"; // מציג הודעת אישור
+            } else {
+              alert("אירעה תקלה בשליחת הטופס. אנא נסה שנית.");
+            }
+          } catch (error) {
+            alert("אירעה שגיאה. אנא בדוק את חיבור האינטרנט שלך ונסה שוב.");
+          }
+        });
+      </script>
       <style>
         form {
           display: flex;
