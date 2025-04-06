@@ -212,6 +212,9 @@
         position: relative;
         padding: 0.5rem 1rem;
         transition: all var(--transition-speed);
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
       }
 
       .nav-links a::before {
@@ -617,10 +620,10 @@
         section li {
           font-size: 0.9em;
           line-height: 1.6;
-        }
+      }
 
-        iframe {
-          width: 100%;
+      iframe {
+        width: 100%;
           height: 200px;
           margin-top: 1rem;
         }
@@ -639,7 +642,7 @@
           padding: 12px;
           font-size: 1em;
         }
-      }
+        }
 
       @media (max-width: 480px) {
         header img {
@@ -1191,50 +1194,34 @@
         }
       }
 
-      /* Back to top button */
-      .back-to-top {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 60px;
-        height: 60px;
-        background: var(--primary-color);
-        border-radius: 50%;
+      /* New back to top button styles */
+      .back-to-top-container {
+        width: 100%;
         display: flex;
-        align-items: center;
         justify-content: center;
+        margin: 2rem 0;
+      }
+
+      .back-to-top-btn {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
         color: var(--background-color);
-        font-size: 2rem;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-size: 1.2rem;
         cursor: pointer;
-        opacity: 0;
-        visibility: hidden;
         transition: all 0.3s ease;
-        box-shadow: 0 0 20px var(--glow-color);
-        z-index: 9999;
-        border: 2px solid var(--accent-color);
-        font-weight: bold;
-        pointer-events: auto;
+        box-shadow: 0 0 15px var(--glow-color);
+        font-family: "Rubik", sans-serif;
       }
 
-      .back-to-top.visible {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .back-to-top:hover {
-        transform: scale(1.1);
-        background: var(--accent-color);
-        box-shadow: 0 0 30px var(--primary-color);
-      }
-
-      @media (max-width: 768px) {
-        .back-to-top {
-          width: 50px;
-          height: 50px;
-          font-size: 1.5rem;
-          bottom: 20px;
-          right: 20px;
-        }
+      .back-to-top-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 25px var(--primary-color);
       }
     </style>
   </head>
@@ -1247,12 +1234,14 @@
       <div class="nav-container">
         <img src="LOGO 2025.jpg" alt="BenMen Logo" class="nav-logo" />
         <div class="nav-links">
-          <a href="#home">🏠 בית</a>
-          <a href="#about">👤 אודות</a>
-          <a href="#skills">💡 התמחויות</a>
-          <a href="#hobbies">🎵 תחביבים</a>
-          <a href="#contact">📞 צור קשר</a>
-          <a href="#social">🌐 רשתות</a>
+          <a href="#home">🏠בית</a>
+          <a href="#about">👤אודות</a>
+          <a href="#skills">💡התמחויות</a>
+          <a href="#premium-services">💰שירותים</a>
+          <a href="#hobbies">🎵תחביבים</a>
+          <a href="#gallery">🖼️גלריה</a>
+          <a href="#contact">📧צור קשר</a>
+          <a href="#social">🌐רשתות</a>
         </div>
         <img src="LOGO 2025.jpg" alt="BenMen Logo" class="nav-logo" />
       </div>
@@ -1286,31 +1275,51 @@
       </header>
 
       <section id="about">
-        <h2>מי אני?</h2>
+        <h2>👨‍💼 פרופיל מקצועי</h2>
         <p>
-          בנימין קונין, בן 16 מתל אביב.<br />
-          בוגר תלמוד תורה 'אהלי מנחם' ובי"ס 'יחד'. <br />
-          אני אדם שאוהב ללמוד ולהתפתח כל הזמן. תמיד מחפש את הדרך לייעל את העבודה
-          שלי ולפשט תהליכים. עקרונות של עזרה הדדית, עמל, יגע והגעה למטרה מנחים
-          אותי.
+          בנימין קונין, יזם דיגיטלי צעיר ומוכשר מתל אביב.<br />
+          בוגר תלמוד תורה 'אהלי מנחם' ובית הספר 'יחד'.<br />
+          בעל תשוקה עזה ללמידה מתמדת והתפתחות מקצועית. מתמחה באיתור פתרונות
+          טכנולוגיים חדשניים לייעול תהליכים עסקיים. מונחה על ידי ערכים של
+          מצוינות, מסירות ומחויבות להשגת תוצאות איכותיות.
         </p>
       </section>
 
       <section id="skills">
-        <h2>התמחויות:</h2>
+        <h2>🎯 התמחויות</h2>
         <ul>
-          <li>Google Business - ניהול ושיווק עסקים באינטרנט</li>
-          <li>Microsoft Word - מייקרוסופט וורד</li>
-          <li>Photopea - פוטופי</li>
-          <li>Microsoft Clipchamp - מייקרוסופט קליפצ'אמפ</li>
-          <li>Discord Servers Editor - בונה ומעצב שרתי דיסקורד</li>
-          <li>HTML - תכנות אתרים</li>
-          <li>CSS - עיצוב אתרים</li>
+          <li>
+            🔍 Google Business - ניהול ושיווק עסקים באינטרנט, קידום אורגני,
+            ניהול קמפיינים וניתוח נתונים
+          </li>
+          <li>
+            📝 Microsoft Word - עיצוב מסמכים מקצועיים, יצירת תבניות, עריכת
+            טקסטים וניהול מסמכים
+          </li>
+          <li>
+            🎨 Photopea - עריכת תמונות מתקדמת, עיצוב גרפי, יצירת לוגואים ועיבוד
+            תמונות
+          </li>
+          <li>
+            🎬 Microsoft Clipchamp - עריכת וידאו מקצועית, יצירת סרטונים, הוספת
+            אפקטים ואנימציות
+          </li>
+          <li>
+            💬 Discord Servers Editor - עיצוב שרתים, הגדרת הרשאות, ניהול קהילות
+            ויצירת אינטראקציות
+          </li>
+          <li>🌐 HTML - פיתוח אתרים, מבנה דפי אינטרנט, סמנטיקה ואופטימיזציה</li>
+          <li>🎨 CSS - עיצוב אתרים מתקדם, אנימציות, אפקטים ורספונסיביות</li>
+          <li>
+            📱 ניהול מדיה חברתית - קידום תוכן, ניהול קמפיינים, אינטראקציה עם קהל
+          </li>
+          <li>📊 ניתוח נתונים - מעקב אחר ביצועים, אופטימיזציה ושיפור תוצאות</li>
+          <li>🎯 SEO - קידום אתרים במנועי חיפוש, אופטימיזציה לתוכן ומבנה</li>
         </ul>
       </section>
 
       <section id="premium-services">
-        <h2>שירותים בתשלום 🚀</h2>
+        <h2>💼 שירותים בתשלום</h2>
         <div class="services-container">
           <div class="services-grid">
             <div class="service-card">
@@ -1320,7 +1329,7 @@
                 <li>עיצוב מותאם אישית</li>
                 <li>תמיכה במובייל</li>
                 <li>אנימציות מתקדמות</li>
-              </ul>
+        </ul>
               <div class="price">מחיר: החל מ-₪1,500</div>
               <a href="#contact" class="cta-button">הזמן עכשיו</a>
             </div>
@@ -1379,29 +1388,19 @@
       </section>
 
       <section id="hobbies">
-        <h2>תחביבים:</h2>
+        <h2>🔍 תחומי עניין מקצועיים</h2>
         <p>
-          כיום התחביבים שלי הם ניהול פרוייקטים במוסדות, לעצב תמונות ודפי
-          אינטרנט. אני נהנה לגלות טכנולוגיות חדשות וליישם אותן בחיי היום-יום.
-          אני חובב טכנולוגיה וחדשנות. כל תחביב שקשור למחשבים, אפליקציות, או
-          פיתוח טכנולוגי מעניין אותי. אני נהנה לגלות כלים חדשים שיכולים לעזור לי
-          לשפר את העבודה שלי ולפתור בעיות בצורה יצירתית. <br />
-          בנוסף, אני חובבן גדול של מוזיקה חסידית.
+          בעל ניסיון רב בניהול פרויקטים דיגיטליים ופיתוח פתרונות טכנולוגיים
+          למוסדות וארגונים. מתמחה בעיצוב גרפי מתקדם, פיתוח אתרים וניהול תוכן
+          דיגיטלי. מחויב להתעדכנות מתמדת בתחומי הטכנולוגיה והחדשנות, תוך שילוב
+          כלים דיגיטליים מתקדמים לשיפור תהליכים עסקיים. מתעניין במיוחד בתחומי
+          הבינה המלאכותית, למידת מכונה ופיתוח אפליקציות מתקדמות, ומשקיע זמן רב
+          בהתעדכנות ובפיתוח מיומנויות בתחומים אלו.
         </p>
-        <iframe
-          width="1045"
-          height="463"
-          src="https://www.youtube.com/embed/D_p6W4-ZPeg"
-          title="Shmueli Ungar - FIRE! - שמילי אונגר - פייער (Official Music Video)"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-        ></iframe>
       </section>
 
       <section id="gallery">
-        <h2>גלריית עבודות 🎨</h2>
+        <h2>🖼️ גלריית עבודות</h2>
         <div class="gallery-container">
           <div class="gallery-grid">
             <div class="gallery-item">
@@ -1483,8 +1482,36 @@
             </div>
           </div>
           <div class="gallery-controls">
-            <button onclick="nextImage()" class="gallery-button">➡️</button>
-            <button onclick="prevImage()" class="gallery-button">⬅️</button>
+            <button onclick="nextImage()" class="gallery-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+            <button onclick="prevImage()" class="gallery-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
           </div>
         </div>
       </section>
@@ -1520,11 +1547,19 @@
           <div class="footer-section">
             <h3>אודות</h3>
             <p>האתר הרשמי של בןמן - מקום אחד לכל המידע והתמיכה</p>
+            <p
+              style="
+                margin-top: 1rem;
+                font-size: 0.9em;
+                color: var(--accent-color);
+              "
+            >
+              © 2025 כל הזכויות שמורות ל-BenMen
+            </p>
           </div>
           <div class="footer-section">
             <h3>צור קשר</h3>
-            <p>דוא"ל: benjaminkunin@gmail.com</p>
-            <p>טלפון: 050-685-1924</p>
+            <p>לפניות עסקיות, אנא השתמשו בטופס יצירת הקשר</p>
           </div>
           <div class="footer-section">
             <h3>עקבו אחרינו</h3>
@@ -1564,9 +1599,16 @@
 
     <div class="digital-rain" id="digitalRain"></div>
 
-    <button class="back-to-top" aria-label="חזרה לראש העמוד">⬆</button>
+    <div class="back-to-top-container">
+      <button
+        class="back-to-top-btn"
+        onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+      >
+        חזרה למעלה 🚀
+      </button>
+    </div>
 
-    <script>
+      <script>
       // Loading screen
       window.addEventListener("load", () => {
         const loadingScreen = document.querySelector(".loading-screen");
@@ -1616,36 +1658,36 @@
       });
 
       // Form submission handling
-      const form = document.getElementById("contact-form");
-      const confirmationMessage = document.getElementById(
-        "confirmation-message"
-      );
+        const form = document.getElementById("contact-form");
+        const confirmationMessage = document.getElementById(
+          "confirmation-message"
+        );
 
-      form.addEventListener("submit", async (event) => {
+        form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        try {
-          const response = await fetch(form.action, {
-            method: form.method,
+          try {
+            const response = await fetch(form.action, {
+              method: form.method,
             body: new FormData(form),
-            headers: {
-              Accept: "application/json",
-            },
-          });
+              headers: {
+                Accept: "application/json",
+              },
+            });
 
-          if (response.ok) {
+            if (response.ok) {
             form.reset();
             confirmationMessage.style.display = "block";
             setTimeout(() => {
               confirmationMessage.style.display = "none";
             }, 5000);
-          } else {
-            alert("אירעה תקלה בשליחת הטופס. אנא נסה שנית.");
+            } else {
+              alert("אירעה תקלה בשליחת הטופס. אנא נסה שנית.");
+            }
+          } catch (error) {
+            alert("אירעה שגיאה. אנא בדוק את חיבור האינטרנט שלך ונסה שוב.");
           }
-        } catch (error) {
-          alert("אירעה שגיאה. אנא בדוק את חיבור האינטרנט שלך ונסה שוב.");
-        }
-      });
+        });
 
       // Add menu toggle functionality
       const menuToggle = document.querySelector(".menu-toggle");
@@ -1768,24 +1810,6 @@
           prevImage();
         }
       }
-
-      // Back to top button functionality
-      const backToTopButton = document.querySelector(".back-to-top");
-
-      window.addEventListener("scroll", () => {
-        if (window.pageYOffset > 300) {
-          backToTopButton.classList.add("visible");
-        } else {
-          backToTopButton.classList.remove("visible");
-        }
-      });
-
-      backToTopButton.addEventListener("click", () => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      });
     </script>
   </body>
 </html>
