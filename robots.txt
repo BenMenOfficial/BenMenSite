@@ -1,0 +1,27 @@
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow access to sensitive directories
+Disallow: /admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /backup/
+
+# Disallow access to specific file types
+Disallow: /*.php$
+Disallow: /*.sql$
+Disallow: /*.log$
+
+# Allow access to important assets
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.svg$
+
+# Specify the location of the sitemap
+Sitemap: https://benjaminkunin.com/sitemap.xml
+
+# Crawl-delay: 10  # Optional: Limit crawl rate to 1 request per 10 seconds 
