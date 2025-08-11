@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,17 +18,18 @@
       property="og:description"
       content="האתר הרשמי של בןמן, ליצירת קשר, תמיכה ופרטים נוספים"
     />
-    <meta
-      property="og:image"
-      content="https://github.com/BenMenOfficial/BenMenSite/blob/main/LOGO%202025.jpg?raw=true"
-    />
-    <meta
-      property="og:url"
-      content="https://benmenofficial.github.io/BenMenSite/"
-    />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://benjaminkunin.com/" />
+    <meta property="og:image" content="https://benjaminkunin.com/LOGO%202025.jpg" />
+    <meta property="og:locale" content="he_IL" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BenMen - האתר הרשמי" />
+    <meta name="twitter:description" content="האתר הרשמי של בןמן, ליצירת קשר, תמיכה ופרטים נוספים" />
+    <meta name="twitter:image" content="https://benjaminkunin.com/LOGO%202025.jpg" />
+    <meta name="theme-color" content="#020b1c" />
     <link rel="canonical" href="https://benjaminkunin.com" />
-    <link rel="icon" type="image/x-icon" href="LOGO 2025.jpg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-32x32.png" />
     <title>BenMen - האתר הרשמי</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,1194 +37,7 @@
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <style>
-      :root {
-        --primary-color: #00f7ff;
-        --secondary-color: #0b1c48;
-        --accent-color: #4deeea;
-        --text-color: #e0f7f6;
-        --background-color: #020b1c;
-        --card-background: #0d1b3a;
-        --grid-color: rgba(0, 247, 255, 0.1);
-        --glow-color: rgba(77, 238, 234, 0.3);
-        --transition-speed: 0.3s;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Rubik", sans-serif;
-        background-color: var(--background-color);
-        color: var(--text-color);
-        direction: rtl;
-        line-height: 1.8;
-        font-size: 1.2em;
-        overflow-x: hidden;
-        position: relative;
-      }
-
-      .bsd-text {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 0.8em;
-        color: var(--primary-color);
-        text-shadow: 0 0 5px var(--glow-color);
-      }
-
-      body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-            217deg,
-            rgba(0, 247, 255, 0.1),
-            rgba(255, 0, 0, 0) 70.71%
-          ),
-          linear-gradient(
-            127deg,
-            rgba(77, 238, 234, 0.1),
-            rgba(0, 255, 0, 0) 70.71%
-          ),
-          linear-gradient(
-            336deg,
-            rgba(0, 183, 255, 0.1),
-            rgba(0, 0, 255, 0) 70.71%
-          ),
-          radial-gradient(
-            circle at 50% 50%,
-            rgba(0, 247, 255, 0.05) 0%,
-            transparent 50%
-          ),
-          repeating-linear-gradient(
-            45deg,
-            var(--grid-color) 0%,
-            var(--grid-color) 1%,
-            transparent 1%,
-            transparent 5%
-          );
-        background-size: 200% 200%, 200% 200%, 200% 200%, 100% 100%, 50px 50px;
-        opacity: 0.7;
-        z-index: -1;
-        animation: gradientMove 15s ease infinite;
-      }
-
-      @keyframes gradientMove {
-        0% {
-          background-position: 0% 0%, 0% 0%, 0% 0%, center, 0 0;
-          transform: perspective(1000px) rotateX(10deg) scale(1);
-        }
-        50% {
-          background-position: 100% 100%, 0% 100%, 100% 0%, center, 25px 25px;
-          transform: perspective(1000px) rotateX(10deg) scale(1.1);
-        }
-        100% {
-          background-position: 0% 0%, 0% 0%, 0% 0%, center, 50px 50px;
-          transform: perspective(1000px) rotateX(10deg) scale(1);
-        }
-      }
-
-      .loading-screen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--background-color);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        transition: opacity 0.5s ease-out;
-      }
-
-      .loading-spinner {
-        width: 50px;
-        height: 50px;
-        border: 5px solid var(--accent-color);
-        border-top-color: transparent;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-        position: relative;
-      }
-
-      nav {
-        background: rgba(11, 28, 72, 0.8);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--primary-color);
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        padding: 0.5rem 0;
-      }
-
-      .nav-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-        gap: 2rem;
-      }
-
-      .nav-logo {
-        max-width: 40px;
-        filter: drop-shadow(0 0 5px var(--glow-color));
-        transition: all var(--transition-speed);
-      }
-
-      .nav-logo:hover {
-        filter: drop-shadow(0 0 10px var(--primary-color));
-        transform: scale(1.1);
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-      }
-
-      .nav-links a {
-        color: var(--text-color);
-        text-decoration: none;
-        font-weight: 500;
-        position: relative;
-        padding: 0.5rem 1rem;
-        transition: all var(--transition-speed);
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
-      }
-
-      .nav-links a::before {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--primary-color),
-          transparent
-        );
-        transform: scaleX(0);
-        transition: transform var(--transition-speed);
-      }
-
-      .nav-links a:hover::before {
-        transform: scaleX(1);
-      }
-
-      .menu-toggle {
-        display: none;
-        background: none;
-        border: none;
-        color: var(--text-color);
-        font-size: 1.2rem;
-        cursor: pointer;
-        padding: 0.3rem;
-        transition: all var(--transition-speed);
-      }
-
-      .menu-toggle:hover {
-        color: var(--accent-color);
-      }
-
-      header {
-        margin-top: 80px;
-        text-align: center;
-        padding: 4rem 0;
-        background: linear-gradient(
-          135deg,
-          var(--secondary-color),
-          var(--card-background)
-        );
-        position: relative;
-        overflow: hidden;
-      }
-
-      header::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(
-            circle at 20% 20%,
-            var(--glow-color) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 80% 80%,
-            var(--glow-color) 0%,
-            transparent 50%
-          );
-        opacity: 0.5;
-        z-index: 0;
-      }
-
-      header img {
-        position: relative;
-        z-index: 1;
-        max-width: 200px;
-        margin-bottom: 2rem;
-        filter: drop-shadow(0 0 20px var(--glow-color));
-        animation: float 6s ease-in-out infinite;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-      }
-
-      section {
-        background: var(--card-background);
-        border: 1px solid var(--primary-color);
-        border-radius: 10px;
-        padding: 2rem;
-        margin: 2rem 0;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 0 20px var(--glow-color);
-      }
-
-      section::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(
-          45deg,
-          transparent,
-          var(--primary-color),
-          transparent
-        );
-        opacity: 0.1;
-        animation: glowingBorder 4s linear infinite;
-      }
-
-      @keyframes glowingBorder {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
-      section h2 {
-        color: var(--primary-color);
-        font-size: 2em;
-        margin-bottom: 1.5rem;
-        text-shadow: 0 0 10px var(--glow-color);
-        position: relative;
-        display: inline-block;
-      }
-
-      .feature {
-        background: rgba(13, 27, 58, 0.8);
-        border: 1px solid var(--primary-color);
-        padding: 1.5rem;
-        border-radius: 10px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .feature::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          45deg,
-          transparent,
-          var(--glow-color),
-          transparent
-        );
-        opacity: 0;
-        transition: opacity var(--transition-speed);
-      }
-
-      .feature:hover::after {
-        opacity: 0.2;
-      }
-
-      .cta-button {
-        background: linear-gradient(
-          45deg,
-          var(--primary-color),
-          var(--accent-color)
-        );
-        color: var(--background-color);
-        font-weight: bold;
-        padding: 1rem 2rem;
-        border-radius: 30px;
-        text-decoration: none;
-        position: relative;
-        overflow: hidden;
-        transition: all var(--transition-speed);
-        border: none;
-        box-shadow: 0 0 15px var(--glow-color);
-      }
-
-      .cta-button::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(
-          45deg,
-          transparent,
-          rgba(255, 255, 255, 0.5),
-          transparent
-        );
-        transform: rotate(45deg);
-        animation: shine 3s infinite;
-      }
-
-      @keyframes shine {
-        0% {
-          left: -50%;
-        }
-        100% {
-          left: 150%;
-        }
-      }
-
-      .button-container {
-        text-align: center;
-        margin-top: 2rem;
-      }
-
-      .button-container button {
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
-        color: white;
-        border: none;
-        padding: 1rem 2rem;
-        font-size: 1.2em;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all var(--transition-speed);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      }
-
-      .button-container button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      }
-
-      footer {
-        background: var(--card-background);
-        padding: 3rem 0;
-        margin-top: 3rem;
-        border-radius: 20px;
-        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
-      }
-
-      .footer-content {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
-      .footer-section h3 {
-        color: var(--accent-color);
-        margin-bottom: 1rem;
-      }
-
-      .footer-section p,
-      .footer-section a {
-        color: var(--text-color);
-        text-decoration: none;
-        transition: color var(--transition-speed);
-      }
-
-      .footer-section a:hover {
-        color: var(--accent-color);
-      }
-
-      .social-links {
-        display: flex;
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-
-      .social-links a {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        background: transparent;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all var(--transition-speed);
-        overflow: hidden;
-        padding: 4px;
-        border: 1px solid var(--primary-color);
-        box-shadow: 0 0 10px var(--glow-color);
-      }
-
-      .social-links a img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        transition: all var(--transition-speed);
-      }
-
-      .social-links a:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 0 20px var(--primary-color);
-      }
-
-      .social-links a:hover img {
-        transform: scale(1.1);
-      }
-
-      @media (max-width: 768px) {
-        body::before {
-          background: radial-gradient(
-              circle at 10% 0%,
-              rgba(0, 247, 255, 0.1) 0%,
-              transparent 50%
-            ),
-            radial-gradient(
-              circle at 90% 90%,
-              rgba(77, 238, 234, 0.1) 0%,
-              transparent 50%
-            ),
-            linear-gradient(45deg, rgba(0, 247, 255, 0.05) 0%, transparent 100%),
-            linear-gradient(
-              to right,
-              rgba(0, 0, 0, 0.9) 0%,
-              rgba(2, 11, 28, 0.9) 100%
-            );
-          animation: mobileBgShift 15s ease-in-out infinite;
-          opacity: 1;
-          transform: none;
-        }
-
-        nav {
-          display: none;
-        }
-
-        header {
-          margin-top: 0;
-          padding: 2rem 0;
-        }
-
-        header img {
-          max-width: 120px;
-          margin-bottom: 0.5rem;
-        }
-
-        header h1 {
-          font-size: 1.3em;
-          padding: 0 0.5rem;
-          margin-bottom: 0.5rem;
-        }
-
-        .home-content {
-          margin-top: 0.3rem;
-          padding: 0 0.5rem;
-        }
-
-        .home-features {
-          gap: 0.5rem;
-          margin-bottom: 1rem;
-        }
-
-        .feature {
-          padding: 0.8rem;
-          margin: 0.3rem 0;
-        }
-
-        .feature h3 {
-          font-size: 1.1em;
-          margin-bottom: 0.3rem;
-        }
-
-        .feature p {
-          font-size: 0.85em;
-          line-height: 1.4;
-        }
-
-        .cta-buttons {
-          margin-top: 1rem;
-          gap: 0.5rem;
-        }
-
-        .cta-button {
-          padding: 8px 16px;
-          font-size: 0.9em;
-        }
-
-        section {
-          padding: 1.5rem;
-          margin: 1rem 0;
-        }
-
-        section ul {
-          padding-right: 20px;
-          list-style-position: inside;
-        }
-
-        section h2 {
-          font-size: 1.5em;
-          margin-bottom: 1rem;
-        }
-
-        section p,
-        section li {
-          font-size: 0.9em;
-          line-height: 1.6;
-      }
-
-      iframe {
-        width: 100%;
-          height: 200px;
-          margin-top: 1rem;
-        }
-
-        form {
-          padding: 1rem;
-        }
-
-        input,
-        textarea {
-          font-size: 16px;
-          padding: 10px;
-        }
-
-        button[type="submit"] {
-          padding: 12px;
-          font-size: 1em;
-        }
-        }
-
-      @media (max-width: 480px) {
-        header img {
-          max-width: 120px;
-        }
-
-        header h1 {
-          font-size: 1.3em;
-        }
-
-        .feature {
-          padding: 0.8rem;
-        }
-
-        section {
-          padding: 1rem;
-        }
-
-        .footer-content {
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-        }
-
-        .social-links {
-          justify-content: center;
-        }
-      }
-
-      /* Landscape mode improvements */
-      @media (max-height: 500px) and (orientation: landscape) {
-        header {
-          margin-top: 100px;
-          padding: 1.5rem 0;
-        }
-
-        header img {
-          max-width: 200px;
-        }
-
-        section {
-          padding: 1rem;
-          margin: 1rem 0;
-        }
-      }
-
-      /* High DPI screens */
-      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-        .nav-logo,
-        header img {
-          image-rendering: -webkit-optimize-contrast;
-        }
-      }
-
-      /* Form styling */
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 2.5rem;
-        background: rgba(13, 27, 58, 0.8);
-        border-radius: 15px;
-        box-shadow: 0 0 20px var(--glow-color);
-        border: 1px solid var(--primary-color);
-        position: relative;
-        overflow: hidden;
-      }
-
-      form::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(
-          90deg,
-          var(--primary-color),
-          var(--accent-color),
-          var(--primary-color)
-        );
-        animation: borderFlow 3s linear infinite;
-      }
-
-      @keyframes borderFlow {
-        0% {
-          background-position: 0% 50%;
-        }
-        100% {
-          background-position: 200% 50%;
-        }
-      }
-
-      label {
-        color: var(--accent-color);
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-        display: block;
-        text-shadow: 0 0 5px var(--glow-color);
-      }
-
-      input,
-      textarea {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid rgba(0, 247, 255, 0.2);
-        border-radius: 8px;
-        background: rgba(0, 0, 0, 0.2);
-        color: var(--text-color);
-        font-size: 1rem;
-        transition: all var(--transition-speed);
-        font-family: "Rubik", sans-serif;
-      }
-
-      input:focus,
-      textarea:focus {
-        outline: none;
-        border-color: var(--accent-color);
-        box-shadow: 0 0 10px var(--glow-color);
-        background: rgba(0, 0, 0, 0.3);
-      }
-
-      textarea {
-        min-height: 150px;
-        resize: vertical;
-      }
-
-      button[type="submit"] {
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        font-size: 1.1em;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: 600;
-        margin-top: 1rem;
-        font-family: "Rubik", sans-serif;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        position: relative;
-        overflow: hidden;
-        transform-origin: center;
-      }
-
-      button[type="submit"]::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: 0.5s;
-      }
-
-      button[type="submit"]:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 20px var(--glow-color);
-        background: linear-gradient(
-          135deg,
-          var(--secondary-color),
-          var(--primary-color)
-        );
-      }
-
-      button[type="submit"]:hover::before {
-        left: 100%;
-      }
-
-      #confirmation-message {
-        text-align: center;
-        margin-top: 1.5rem;
-        padding: 1rem;
-        background: rgba(76, 175, 80, 0.1);
-        border-radius: 8px;
-        border: 1px solid rgba(76, 175, 80, 0.3);
-        animation: fadeIn 0.5s ease-out;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Home section enhancements */
-      .home-content {
-        margin-top: 2rem;
-        padding: 0 1rem;
-      }
-
-      .home-features {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        margin-bottom: 2rem;
-      }
-
-      .cta-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-top: 2.5rem;
-      }
-
-      .cta-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 12px 30px;
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
-        color: white;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all var(--transition-speed);
-        min-width: 180px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .cta-button::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: 0.5s;
-      }
-
-      .cta-button:hover::before {
-        left: 100%;
-      }
-
-      .cta-button.secondary {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      .cta-button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      }
-
-      @media (max-width: 768px) {
-        .home-features {
-          grid-template-columns: 1fr;
-        }
-
-        .cta-buttons {
-          flex-direction: column;
-          gap: 1rem;
-          align-items: center;
-        }
-
-        .cta-button {
-          width: 100%;
-          max-width: 300px;
-          margin: 0 auto;
-        }
-      }
-
-      /* Digital Rain Animation */
-      .digital-rain {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: -1;
-        opacity: 0.1;
-      }
-
-      .rain-drop {
-        position: absolute;
-        width: 2px;
-        height: 20px;
-        background: linear-gradient(
-          to bottom,
-          transparent,
-          var(--primary-color)
-        );
-        animation: rain-fall linear infinite;
-      }
-
-      @keyframes rain-fall {
-        0% {
-          transform: translateY(-100%);
-          opacity: 0;
-        }
-        10% {
-          opacity: 1;
-        }
-        90% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(100vh);
-          opacity: 0;
-        }
-      }
-
-      /* Typing Text Effect */
-      .typing-text {
-        display: inline-block;
-        overflow: hidden;
-        white-space: nowrap;
-        border-right: 2px solid var(--primary-color);
-        animation: typing 3.5s steps(40, end),
-          blink-caret 0.75s step-end infinite;
-      }
-
-      @keyframes typing {
-        from {
-          width: 0;
-        }
-        to {
-          width: 100%;
-        }
-      }
-
-      @keyframes blink-caret {
-        from,
-        to {
-          border-color: transparent;
-        }
-        50% {
-          border-color: var(--primary-color);
-        }
-      }
-
-      /* Confetti Effect */
-      .confetti {
-        position: fixed;
-        width: 10px;
-        height: 10px;
-        background-color: var(--primary-color);
-        opacity: 0;
-        animation: confetti-fall 3s ease-in-out forwards;
-        z-index: 1000;
-      }
-
-      @keyframes confetti-fall {
-        0% {
-          transform: translateY(-100vh) rotate(0deg);
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(100vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
-
-      .services-container {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        margin-top: 2rem;
-      }
-
-      .services-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 300px);
-        gap: 2rem;
-        justify-content: center;
-      }
-
-      .service-card {
-        background: rgba(13, 27, 58, 0.8);
-        border: 1px solid var(--primary-color);
-        border-radius: 15px;
-        padding: 2rem;
-        transition: all var(--transition-speed);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .service-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px var(--glow-color);
-      }
-
-      .service-card h3 {
-        color: var(--accent-color);
-        margin-bottom: 1rem;
-        font-size: 1.5em;
-      }
-
-      .service-card p {
-        margin-bottom: 1.5rem;
-        color: var(--text-color);
-      }
-
-      .service-card ul {
-        list-style: none;
-        padding: 0;
-        margin-bottom: 1.5rem;
-      }
-
-      .service-card ul li {
-        padding: 0.5rem 0;
-        color: var(--text-color);
-        position: relative;
-        padding-right: 1.5rem;
-      }
-
-      .service-card ul li::before {
-        content: "✓";
-        color: var(--primary-color);
-        position: absolute;
-        right: 0;
-      }
-
-      .price {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: var(--primary-color);
-        margin: 1.5rem 0;
-        text-align: center;
-      }
-
-      .service-card .cta-button {
-        width: 100%;
-        text-align: center;
-        margin-top: 1rem;
-      }
-
-      @media (max-width: 1000px) {
-        .services-grid {
-          grid-template-columns: repeat(2, 300px);
-        }
-      }
-
-      @media (max-width: 700px) {
-        .services-grid {
-          grid-template-columns: 300px;
-        }
-      }
-
-      .gallery-grid {
-        display: flex;
-        overflow-x: auto;
-        scroll-behavior: smooth;
-        gap: 1rem;
-        padding: 1rem;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        width: 100%;
-        scroll-snap-type: x mandatory;
-      }
-
-      .gallery-item {
-        flex: 0 0 auto;
-        width: 60vw;
-        height: 60vh;
-        border-radius: 15px;
-        overflow: hidden;
-        background: rgba(13, 27, 58, 0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        scroll-snap-align: center;
-      }
-
-      .gallery-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
-
-      .gallery-container {
-        position: relative;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 50px;
-      }
-
-      .gallery-controls {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-
-      .gallery-button {
-        width: 50px;
-        height: 50px;
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
-        border: none;
-        border-radius: 50%;
-        color: white;
-        font-size: 24px;
-        cursor: pointer;
-        transition: all var(--transition-speed);
-        box-shadow: 0 0 15px var(--glow-color);
-      }
-
-      .gallery-button:hover {
-        transform: scale(1.1);
-        box-shadow: 0 0 25px var(--primary-color);
-        background: linear-gradient(
-          135deg,
-          var(--secondary-color),
-          var(--primary-color)
-        );
-      }
-
-      @media (max-width: 768px) {
-        .gallery-item {
-          width: 80vw;
-          height: 50vh;
-        }
-        .gallery-container {
-          padding: 0 20px;
-        }
-      }
-
-      /* New back to top button styles */
-      .back-to-top-container {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin: 2rem 0;
-      }
-
-      .back-to-top-btn {
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--accent-color)
-        );
-        color: var(--background-color);
-        border: none;
-        padding: 1rem 2rem;
-        border-radius: 8px;
-        font-size: 1.2rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 0 15px var(--glow-color);
-        font-family: "Rubik", sans-serif;
-      }
-
-      .back-to-top-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 0 25px var(--primary-color);
-      }
-    </style>
+        <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="loading-screen">
@@ -1233,15 +47,15 @@
     <nav>
       <div class="nav-container">
         <img src="LOGO 2025.jpg" alt="BenMen Logo" class="nav-logo" />
-        <div class="nav-links">
-          <a href="#home">🏠בית</a>
-          <a href="#about">👤אודות</a>
-          <a href="#skills">💡התמחויות</a>
-          <a href="#premium-services">💰שירותים</a>
-          <a href="#hobbies">🎵תחביבים</a>
-          <a href="#gallery">🖼️גלריה</a>
-          <a href="#contact">📧צור קשר</a>
-          <a href="#social">🌐רשתות</a>
+        <button class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation" aria-label="פתח תפריט">☰</button>
+        <div class="nav-links" id="primary-navigation">
+          <a href="#home">בית</a>
+          <a href="#about">אודות</a>
+          <a href="#skills">התמחויות</a>
+          <a href="#catalog">קטלוג</a>
+          <a href="#gallery">גלריה</a>
+          <a href="#contact">צור קשר</a>
+          <a href="#social">רשתות</a>
         </div>
         <img src="LOGO 2025.jpg" alt="BenMen Logo" class="nav-logo" />
       </div>
@@ -1251,51 +65,52 @@
       <header id="home">
         <div class="bsd-text">בס"ד</div>
         <img src="LOGO 2025.jpg" alt="BenMen Logo" class="home-logo" />
-        <h1>⚡ ברוכים הבאים למרכז הטכנולוגי של בןמן 🚀</h1>
+        <h1 class="main-title">
+          <span class="title-line">BenMen Digital</span>
+        </h1>
         <div class="home-content">
           <div class="home-features">
             <div class="feature">
-              <h3>🎨 שירותים מקצועיים</h3>
-              <p>עיצוב גרפי, ניהול ושיווק עסקים באינטרנט, בניית אתרים ועוד</p>
+              <h3>🎯 שיווק דיגיטלי מקצועי</h3>
+              <p>קמפיינים ממומנים, קידום אורגני, ניהול רשתות חברתיות וניתוח ביצועים מתקדם</p>
             </div>
             <div class="feature">
-              <h3>💫 ניסיון רב</h3>
-              <p>עבודה עם לקוחות מרוצים ופרויקטים מוצלחים</p>
+              <h3>🌐 בניית אתרים מתקדמת</h3>
+              <p>אתרים רספונסיביים, חנויות אונליין, אפליקציות ווב ופתרונות מותאמים אישית</p>
             </div>
             <div class="feature">
-              <h3>⚡ זמינות גבוהה</h3>
-              <p>תמיכה וסיוע זמינים בכל עת</p>
+              <h3>🎨 עיצוב גרפי מקצועי</h3>
+              <p>לוגואים, מותגים, חומרי פרסום, עיצוב ממשקים וזהות חזותית מלאה</p>
             </div>
           </div>
           <div class="cta-buttons">
-            <a href="#contact" class="cta-button">💬 צור קשר</a>
-            <a href="#skills" class="cta-button secondary">🎯 התמחויות</a>
+            <a href="#catalog" class="cta-button">קטלוג שירותים</a>
           </div>
         </div>
       </header>
 
       <section id="about">
-        <h2>👨‍💼 פרופיל מקצועי</h2>
+        <h2>פרופיל מקצועי</h2>
         <p>
-          בנימין קונין, יזם דיגיטלי צעיר ומוכשר מתל אביב.<br />
-          לומד כיום בישיבה לצעירים "חיי אברהם"
-          ובוגר תלמוד תורה 'אהלי מנחם' ובית הספר 'יחד'.<br />
-          בעל תשוקה עזה ללמידה מתמדת והתפתחות מקצועית. מתמחה באיתור פתרונות
-          טכנולוגיים חדשניים לייעול תהליכים עסקיים. מונחה על ידי ערכים של
-          מצוינות, מסירות ומחויבות להשגת תוצאות איכותיות.
+          בנימין קונין – יזם ומפתח דיגיטלי מתל‑אביב. מתמחה בעיצוב ופיתוח אתרים,
+          שיווק דיגיטלי וניהול פרויקטים טכנולוגיים מקצה לקצה. פועל מתוך מחויבות
+          למצוינות, שירות מקצועי ושקיפות מלאה, עם דגש על פתרונות פרקטיים
+          המניבים תוצאות מדידות.
+        </p>
+        <p>
+          בעל ניסיון בהובלת פרויקטים דיגיטליים עבור מוסדות וארגונים, לרבות אפיון
+          תהליכים, ייעול תפעולי והטמעת כלים דיגיטליים מתקדמים. עוסק בעיצוב גרפי
+          מתקדם, פיתוח אתרים וניהול תוכן, ומתעדכן באופן שוטף בתחומי הטכנולוגיה,
+          הבינה המלאכותית, למידת מכונה ופיתוח אפליקציות.
         </p>
       </section>
 
       <section id="skills">
-        <h2>🎯 התמחויות</h2>
+        <h2>התמחויות</h2>
         <ul>
           <li>
             🔍 Google Business - ניהול ושיווק עסקים באינטרנט, קידום אורגני,
             ניהול קמפיינים וניתוח נתונים
-          </li>
-          <li>
-            📝 Microsoft Word - עיצוב מסמכים מקצועיים, יצירת תבניות, עריכת
-            טקסטים וניהול מסמכים
           </li>
           <li>
             🎨 Photopea - עריכת תמונות מתקדמת, עיצוב גרפי, יצירת לוגואים ועיבוד
@@ -1319,99 +134,96 @@
         </ul>
       </section>
 
-      <section id="premium-services">
-        <h2>💼 שירותים בתשלום</h2>
+      <section id="catalog">
+        <h2>קטלוג שירותים</h2>
         <div class="services-container">
           <div class="services-grid">
             <div class="service-card">
-              <h3>🎨 עיצוב אתרים</h3>
-              <p>עיצוב אתרים מודרניים ומתקדמים</p>
+              <h3>אתר One‑Page</h3>
+              <p>דף נחיתה/אתר תדמית חד‑עמודי ממוקד המרה.</p>
               <ul>
-                <li>עיצוב מותאם אישית</li>
-                <li>תמיכה במובייל</li>
-                <li>אנימציות מתקדמות</li>
+                <li>עיצוב מותאם ורספונסיבי</li>
+                <li>טופס יצירת קשר</li>
+                <li>אופטימיזציית ביצועים ו‑SEO בסיסי</li>
         </ul>
-              <div class="price">מחיר: החל מ-₪1,500</div>
-              <a href="#contact" class="cta-button">הזמן עכשיו</a>
+              <a href="#contact" class="cta-button">לקבלת הצעת מחיר</a>
             </div>
 
             <div class="service-card">
-              <h3>📈 שיווק עסק באינטרנט</h3>
-              <p>קידום עסקי מקצועי ברשת</p>
+              <h3>אתר עסקי</h3>
+              <p>אתר מרובה עמודים לעסק עם תשתית תוכן יציבה.</p>
               <ul>
-                <li>קידום בגוגל</li>
-                <li>ניהול קמפיינים</li>
-                <li>ניתוח נתונים</li>
-                <li>הגדלת חשיפה</li>
+                <li>עד 6‑8 עמודים מעוצבים</li>
+                <li>בלוג/חדשות ותבניות תוכן</li>
+                <li>חיבור לאנליטיקס וכלי ניטור</li>
               </ul>
-              <div class="price">מחיר: החל מ-₪1,200 לחודש</div>
-              <a href="#contact" class="cta-button">הזמן עכשיו</a>
+              <a href="#contact" class="cta-button">לקבלת הצעת מחיר</a>
             </div>
 
             <div class="service-card">
-              <h3>🎨 עיצוב גרפי</h3>
-              <p>שירותי עיצוב גרפי מקצועיים</p>
+              <h3>חנות אונליין בסיסית</h3>
+              <p>חנות מקוונת למכירה ישירה וניהול מוצרים.</p>
               <ul>
-                <li>עיצוב לוגואים</li>
-                <li>עיצוב כרטיסי ביקור</li>
-                <li>עיצוב פוסטרים</li>
-                <li>עריכת תמונות</li>
+                <li>קטלוג, סל קניות ותשלום מאובטח</li>
+                <li>ניהול הזמנות וחשבוניות</li>
+                <li>הדרכה להפעלה ותפעול</li>
               </ul>
-              <div class="price">מחיר: החל מ-₪300 לפרויקט</div>
-              <a href="#contact" class="cta-button">הזמן עכשיו</a>
+              <a href="#contact" class="cta-button">לקבלת הצעת מחיר</a>
             </div>
 
             <div class="service-card">
-              <h3>📱 ניהול מדיה חברתית</h3>
-              <p>ניהול מקצועי של הרשתות החברתיות</p>
+              <h3>SEO Essentials</h3>
+              <p>בסיס לקידום אורגני אפקטיבי ויציב.</p>
               <ul>
-                <li>ניהול תוכן יומי</li>
-                <li>קידום אורגני</li>
-                <li>ניתוח ביצועים</li>
+                <li>מחקר מילות מפתח</li>
+                <li>On‑Page ו‑Technical SEO בסיסי</li>
+                <li>דוח ביצועים והמלצות</li>
               </ul>
-              <div class="price">מחיר: החל מ-₪800 לחודש</div>
-              <a href="#contact" class="cta-button">הזמן עכשיו</a>
+              <a href="#contact" class="cta-button">לקבלת הצעת מחיר</a>
             </div>
 
             <div class="service-card">
-              <h3>💻 פיתוח אתרים</h3>
-              <p>פיתוח אתרים מתקדמים</p>
+              <h3>קמפיינים ממומנים</h3>
+              <p>הקמה וניהול קמפיינים ממוקדי מטרה.</p>
               <ul>
-                <li>אתר מותאם אישית</li>
-                <li>תמיכה טכנית</li>
-                <li>הדרכה למשתמש</li>
+                <li>הגדרת יעדים וקהלים</li>
+                <li>קריאייטיב ודפי נחיתה</li>
+                <li>אופטימיזציה ודוחות</li>
               </ul>
-              <div class="price">מחיר: החל מ-₪2,500</div>
-              <a href="#contact" class="cta-button">הזמן עכשיו</a>
+              <a href="#contact" class="cta-button">לקבלת הצעת מחיר</a>
+            </div>
+
+            <div class="service-card">
+              <h3>ניהול מדיה חברתית</h3>
+              <p>ניהול שוטף של תוכן ומעורבות קהל.</p>
+              <ul>
+                <li>תכנון תכנים חודשי</li>
+                <li>עיצוב פוסטים וסטוריז</li>
+                <li>דוחות תקופתיים ושיפור</li>
+              </ul>
+              <a href="#contact" class="cta-button">לקבלת הצעת מחיר</a>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="hobbies">
-        <h2>🔍 תחומי עניין מקצועיים</h2>
-        <p>
-          בעל ניסיון רב בניהול פרויקטים דיגיטליים ופיתוח פתרונות טכנולוגיים
-          למוסדות וארגונים. מתמחה בעיצוב גרפי מתקדם, פיתוח אתרים וניהול תוכן
-          דיגיטלי. מחויב להתעדכנות מתמדת בתחומי הטכנולוגיה והחדשנות, תוך שילוב
-          כלים דיגיטליים מתקדמים לשיפור תהליכים עסקיים. מתעניין במיוחד בתחומי
-          הבינה המלאכותית, למידת מכונה ופיתוח אפליקציות מתקדמות, ומשקיע זמן רב
-          בהתעדכנות ובפיתוח מיומנויות בתחומים אלו.
-        </p>
-      </section>
+      
 
       <section id="gallery">
-        <h2>🖼️ גלריית עבודות</h2>
+        <h2>גלריית עבודות</h2>
         <div class="gallery-container">
           <div class="gallery-grid">
-            <div class="gallery-item">
+            <div class="gallery-item" data-title="מנחם לימוזין – אתר הסעות VIP" data-description="אתר תדמיתי עם חוויית VIP, ניווט ברור, גלריה וטופס יצירת קשר." data-tags="HTML,CSS,SEO,Responsive" data-link="https://benmenofficial.github.io/MenachemLimousine/">
+              <img src="https://drive.google.com/thumbnail?id=1RbL1GEte1pea2Or9dYlEusuc7Lri2xpx&sz=w1200" alt="מנחם לימוזין – אתר הסעות VIP" loading="lazy" referrerpolicy="no-referrer" />
+            </div>
+            <div class="gallery-item" data-title="פרסומת" data-description="עיצוב גרפי בסגנון פרסומת מודרני" data-tags="Branding,Design">
               <img
                 src="https://drive.google.com/thumbnail?id=1pk72W4QG_bDZnA-v4dscohqucvzLwIo8&sz=w1000"
                 alt="לוגו 1"
                 loading="lazy"
               />
             </div>
-            <div class="gallery-item">
+            <div class="gallery-item" data-title="לוגו 2" data-description="לוגו מודרני נקי" data-tags="Logo,Design">
               <img
                 src="https://drive.google.com/thumbnail?id=1KqlDdsitHJUGWHsV9Hr5d7HT9B5TpmG0&sz=w1000"
                 alt="לוגו 2"
@@ -1442,14 +254,14 @@
             <div class="gallery-item">
               <img
                 src="https://drive.google.com/thumbnail?id=1pvW5LqH9Z9IwKaKBQFFG7HKzab0yFibF&sz=w1000"
-                alt="עיצוב אתר"
+                alt="טאמבנייל"
                 loading="lazy"
               />
             </div>
             <div class="gallery-item">
               <img
                 src="https://drive.google.com/thumbnail?id=15ZSomF-tdo4o7p5k-VsXIS0-FGmxj0Bw&sz=w1000"
-                alt="עיצוב מוצר"
+                alt="לוגו"
                 loading="lazy"
               />
             </div>
@@ -1460,17 +272,17 @@
                 loading="lazy"
               />
             </div>
-            <div class="gallery-item">
+            <div class="gallery-item" data-title="כרטיס ביקור" data-description="עיצוב כרטיס ביקור מקצועי עם היררכיית מידע ברורה, טיפוגרפיה קריאה והתאמה מלאה לדפוס." data-tags="Business Card,Print,Branding,Typography">
               <img
                 src="https://drive.google.com/thumbnail?id=1KQqf06QSsz-F5JEA0ykklcCgEmG9vBnG&sz=w1000"
-                alt="עיצוב גרפי 2"
+                alt="כרטיס ביקור"
                 loading="lazy"
               />
             </div>
-            <div class="gallery-item">
+            <div class="gallery-item" data-title="כרטיס ביקור" data-description="עיצוב כרטיס ביקור מקצועי עם היררכיית מידע ברורה, טיפוגרפיה קריאה והתאמה מלאה לדפוס." data-tags="Business Card,Print,Branding,Typography">
               <img
                 src="https://drive.google.com/thumbnail?id=1cgeUl4pwdzi3hBrRSWf_1nrDxsZjtbyz&sz=w1000"
-                alt="עיצוב גרפי 3"
+                alt="כרטיס ביקור"
                 loading="lazy"
               />
             </div>
@@ -1516,6 +328,22 @@
           </div>
         </div>
       </section>
+
+      <!-- Lightbox markup -->
+      <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="lightbox-content">
+          <button class="lightbox-close" aria-label="סגור" id="lightboxClose">✕</button>
+          <div class="lightbox-image">
+            <img id="lightboxImg" alt="תצוגת פרויקט" />
+          </div>
+          <div class="lightbox-details">
+            <h3 id="lightboxTitle">שם פרויקט</h3>
+            <p id="lightboxDesc">תיאור קצר של הפרויקט.</p>
+            <div class="lightbox-tags" id="lightboxTags"></div>
+            <a id="lightboxLink" class="cta-button" href="#" target="_blank" rel="noopener noreferrer" data-ignore-smooth="true">צפו באתר</a>
+          </div>
+        </div>
+      </div>
 
       <section id="contact">
         <h2>לפניות עסקיות / יצירת קשר</h2>
@@ -1568,6 +396,7 @@
               <a
                 href="https://www.xplace.com/u/BenMenOfficial"
                 target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Xplace"
               >
                 <img src="https://www.xplace.com/favicon.ico" alt="Xplace" />
@@ -1575,6 +404,7 @@
               <a
                 href="https://www.youtube.com/@BenMenOfficial"
                 target="_blank"
+                rel="noopener noreferrer"
                 aria-label="YouTube"
               >
                 <img
@@ -1585,6 +415,7 @@
               <a
                 href="https://discord.com/users/BenMen#3938"
                 target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Discord"
               >
                 <img
@@ -1597,9 +428,7 @@
         </div>
       </footer>
     </div>
-
     <div class="digital-rain" id="digitalRain"></div>
-
     <div class="back-to-top-container">
       <button
         class="back-to-top-btn"
@@ -1609,208 +438,6 @@
       </button>
     </div>
 
-      <script>
-      // Loading screen
-      window.addEventListener("load", () => {
-        const loadingScreen = document.querySelector(".loading-screen");
-        loadingScreen.style.opacity = "0";
-        setTimeout(() => {
-          loadingScreen.style.display = "none";
-        }, 500);
-      });
-
-      // Improved smooth scroll for navigation links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const targetId = this.getAttribute("href");
-          const targetElement = document.querySelector(targetId);
-          const headerOffset = 100; // Adjust this value based on your header height
-          const elementPosition = targetElement.getBoundingClientRect().top;
-          const offsetPosition =
-            elementPosition + window.pageYOffset - headerOffset;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-          });
-        });
-      });
-
-      // Add scroll animation to sections
-      const sections = document.querySelectorAll("section");
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.style.opacity = "1";
-              entry.target.style.transform = "translateY(0)";
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      sections.forEach((section) => {
-        section.style.opacity = "0";
-        section.style.transform = "translateY(20px)";
-        section.style.transition = "all 0.6s ease-out";
-        observer.observe(section);
-      });
-
-      // Form submission handling
-        const form = document.getElementById("contact-form");
-        const confirmationMessage = document.getElementById(
-          "confirmation-message"
-        );
-
-        form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-          try {
-            const response = await fetch(form.action, {
-              method: form.method,
-            body: new FormData(form),
-              headers: {
-                Accept: "application/json",
-              },
-            });
-
-            if (response.ok) {
-            form.reset();
-            confirmationMessage.style.display = "block";
-            setTimeout(() => {
-              confirmationMessage.style.display = "none";
-            }, 5000);
-            } else {
-              alert("אירעה תקלה בשליחת הטופס. אנא נסה שנית.");
-            }
-          } catch (error) {
-            alert("אירעה שגיאה. אנא בדוק את חיבור האינטרנט שלך ונסה שוב.");
-          }
-        });
-
-      // Add menu toggle functionality
-      const menuToggle = document.querySelector(".menu-toggle");
-      const navLinks = document.querySelector(".nav-links");
-
-      menuToggle.addEventListener("click", () => {
-        navLinks.classList.toggle("active");
-      });
-
-      // Close menu when clicking outside
-      document.addEventListener("click", (e) => {
-        if (!e.target.closest(".nav-container")) {
-          navLinks.classList.remove("active");
-        }
-      });
-
-      // Close menu when clicking a link
-      document.querySelectorAll(".nav-links a").forEach((link) => {
-        link.addEventListener("click", () => {
-          navLinks.classList.remove("active");
-        });
-      });
-
-      // Digital Rain Effect
-      function createDigitalRain() {
-        const rainContainer = document.getElementById("digitalRain");
-        const dropsCount = 100;
-
-        for (let i = 0; i < dropsCount; i++) {
-          const drop = document.createElement("div");
-          drop.className = "rain-drop";
-          drop.style.left = `${Math.random() * 100}%`;
-          drop.style.animationDuration = `${2 + Math.random() * 3}s`;
-          drop.style.animationDelay = `${Math.random() * 5}s`;
-          rainContainer.appendChild(drop);
-        }
-      }
-
-      // Visitor Counter
-      function updateVisitorCounter() {
-        let count = localStorage.getItem("visitorCount") || 0;
-        count = parseInt(count) + 1;
-        localStorage.setItem("visitorCount", count);
-        document.querySelector(".counter-number").textContent = count;
-      }
-
-      // Confetti Effect
-      function createConfetti() {
-        const colors = ["#00f7ff", "#4deeea", "#00b7ff"];
-        const confettiCount = 100;
-
-        for (let i = 0; i < confettiCount; i++) {
-          const confetti = document.createElement("div");
-          confetti.className = "confetti";
-          confetti.style.left = `${Math.random() * 100}%`;
-          confetti.style.backgroundColor =
-            colors[Math.floor(Math.random() * colors.length)];
-          confetti.style.animationDuration = `${2 + Math.random() * 3}s`;
-          confetti.style.animationDelay = `${Math.random() * 0.5}s`;
-          document.body.appendChild(confetti);
-
-          setTimeout(() => {
-            confetti.remove();
-          }, 3000);
-        }
-      }
-
-      // Initialize effects
-      document.addEventListener("DOMContentLoaded", () => {
-        createDigitalRain();
-        updateVisitorCounter();
-
-        // Add confetti effect to form submission
-        const form = document.querySelector("form");
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          createConfetti();
-          // Your existing form submission code here
-        });
-      });
-
-      // Gallery navigation
-      function nextImage() {
-        const gallery = document.querySelector(".gallery-grid");
-        const itemWidth = gallery.querySelector(".gallery-item").offsetWidth;
-        gallery.scrollBy({
-          left: itemWidth,
-          behavior: "smooth",
-        });
-      }
-
-      function prevImage() {
-        const gallery = document.querySelector(".gallery-grid");
-        const itemWidth = gallery.querySelector(".gallery-item").offsetWidth;
-        gallery.scrollBy({
-          left: -itemWidth,
-          behavior: "smooth",
-        });
-      }
-
-      // Add touch swipe support
-      const gallery = document.querySelector(".gallery-grid");
-      let touchStartX = 0;
-      let touchEndX = 0;
-
-      gallery.addEventListener("touchstart", (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-      });
-
-      gallery.addEventListener("touchend", (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-      });
-
-      function handleSwipe() {
-        const swipeThreshold = 50;
-        if (touchEndX < touchStartX - swipeThreshold) {
-          nextImage();
-        } else if (touchEndX > touchStartX + swipeThreshold) {
-          prevImage();
-        }
-      }
-    </script>
+      <script src="script.js"></script>
   </body>
 </html>
