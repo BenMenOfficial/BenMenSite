@@ -6,7 +6,6 @@ window.addEventListener("load", () => {
     loadingScreen.style.display = "none";
   }, 500);
 });
-
 // Improved smooth scroll for navigation links (ignore external/lightbox links)
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
