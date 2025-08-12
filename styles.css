@@ -1346,6 +1346,30 @@ button[type="submit"]:hover::before {
   }
 }
 
+/* Mobile fine-tuning for gallery controls and arrows */
+@media (max-width: 520px) {
+  .gallery-controls {
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .gallery-button {
+    width: 48px;  /* stays above 44px tap target */
+    height: 48px;
+    box-shadow: 0 0 10px var(--glow-color);
+  }
+
+  .gallery-button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .gallery-indicator {
+    font-size: 1em;
+    padding: 0.5rem 1rem;
+  }
+}
+
 /* Lightbox */
 .gallery-item {
   cursor: pointer;
