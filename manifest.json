@@ -1,0 +1,24 @@
+{
+  "name": "BenMen - האתר הרשמי",
+  "short_name": "BenMen",
+  "description": "בנימין קונין - מפתח אתרים, מתכנת ומעצב",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020b1c",
+  "theme_color": "#020b1c",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "iconbenmen.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"],
+  "lang": "he-IL"
+}
