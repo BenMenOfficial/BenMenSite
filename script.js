@@ -6,6 +6,7 @@ window.addEventListener("load", () => {
     loadingScreen.style.display = "none";
   }, 500);
 });
+
 // Improved smooth scroll for navigation links (ignore external/lightbox links)
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
@@ -120,10 +121,17 @@ function createDigitalRain() {
 
 // Visitor Counter
 function updateVisitorCounter() {
-  let count = localStorage.getItem("visitorCount") || 0;
-  count = parseInt(count) + 1;
-  localStorage.setItem("visitorCount", count);
-  document.querySelector(".counter-number").textContent = count;
+  try {
+    let count = localStorage.getItem("visitorCount") || 0;
+    count = parseInt(count) + 1;
+    localStorage.setItem("visitorCount", count);
+    const counterEl = document.querySelector(".counter-number");
+    if (counterEl) {
+      counterEl.textContent = count;
+    }
+  } catch (_) {
+    // ignore counter errors
+  }
 }
 
 // Confetti Effect
@@ -151,40 +159,128 @@ function createConfetti() {
 document.addEventListener("DOMContentLoaded", () => {
   createDigitalRain();
   updateVisitorCounter();
+  
+  // Initialize gallery after a short delay to ensure DOM is ready
+  setTimeout(() => {
+    initializeGallery();
+    // expose gallery navigation to inline onclick handlers
+    window.nextImage = nextImage;
+    window.prevImage = prevImage;
+  }, 200);
 });
 
-// Gallery navigation
-function nextImage() {
-  const gallery = document.querySelector(".gallery-grid");
-  const itemWidth = gallery.querySelector(".gallery-item").offsetWidth;
-  gallery.scrollBy({
-    left: itemWidth,
-    behavior: "smooth",
-  });
-}
 
-function prevImage() {
-  const gallery = document.querySelector(".gallery-grid");
-  const itemWidth = gallery.querySelector(".gallery-item").offsetWidth;
-  gallery.scrollBy({
-    left: -itemWidth,
-    behavior: "smooth",
-  });
-}
 
-// Add touch swipe support
-const gallery = document.querySelector(".gallery-grid");
+// Enhanced touch swipe support and scroll tracking
+let gallery = null;
 let touchStartX = 0;
 let touchEndX = 0;
+let isScrolling = false;
 
-gallery.addEventListener("touchstart", (e) => {
-  touchStartX = e.changedTouches[0].screenX;
-});
+function initializeGallery() {
+  gallery = document.querySelector(".gallery-grid");
+  
+  if (gallery) {
+    // setup new simple controls
+    recalcGallery();
+    attachGalleryControls();
+    gallery.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      isScrolling = false;
+    });
 
-gallery.addEventListener("touchend", (e) => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-});
+    gallery.addEventListener("touchmove", (e) => {
+      isScrolling = true;
+    });
+
+    gallery.addEventListener("touchend", (e) => {
+      if (!isScrolling) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }
+    });
+
+    // no extra trackers needed; handled in attachGalleryControls
+  }
+}
+
+
+
+// New simple gallery scroller
+let currentImageIndex = 0;
+let totalImages = 0;
+
+function recalcGallery() {
+  const gallery = document.querySelector('.gallery-grid');
+  const items = gallery ? Array.from(gallery.querySelectorAll('.gallery-item')) : [];
+  totalImages = items.length;
+  if (currentImageIndex >= totalImages) currentImageIndex = Math.max(0, totalImages - 1);
+  const totalEl = document.getElementById('totalImagesNumber');
+  if (totalEl) totalEl.textContent = String(totalImages || 1);
+  updateIndicator();
+}
+
+function updateIndicator() {
+  const currEl = document.getElementById('currentImageNumber');
+  if (currEl) currEl.textContent = String((currentImageIndex || 0) + 1);
+}
+
+function attachGalleryControls() {
+  const gallery = document.querySelector('.gallery-grid');
+  if (!gallery) return;
+  const prevBtn = document.getElementById('galleryPrev');
+  const nextBtn = document.getElementById('galleryNext');
+  const items = Array.from(gallery.querySelectorAll('.gallery-item'));
+  let isAutoScrolling = false;
+  let scrollDebounceId = null;
+  
+  function goTo(index) {
+    if (index < 0 || index >= items.length) return;
+    currentImageIndex = index;
+    isAutoScrolling = true;
+    const el = items[index];
+    const container = gallery;
+    const targetLeft = el.offsetLeft - (container.clientWidth - el.clientWidth) / 2;
+    container.scrollTo({ left: targetLeft, behavior: 'smooth' });
+    updateIndicator();
+    updateButtonsState();
+    // unlock after animation
+    clearTimeout(scrollDebounceId);
+    scrollDebounceId = setTimeout(() => {
+      isAutoScrolling = false;
+    }, 400);
+  }
+  
+  function updateButtonsState() {
+    if (prevBtn) prevBtn.disabled = currentImageIndex <= 0;
+    if (nextBtn) nextBtn.disabled = currentImageIndex >= items.length - 1;
+  }
+  
+  prevBtn?.addEventListener('click', (e) => { e.preventDefault(); goTo(currentImageIndex - 1); });
+  nextBtn?.addEventListener('click', (e) => { e.preventDefault(); goTo(currentImageIndex + 1); });
+  
+  // sync on manual scroll
+  gallery.addEventListener('scroll', () => {
+    if (isAutoScrolling) return;
+    clearTimeout(scrollDebounceId);
+    scrollDebounceId = setTimeout(() => {
+      const center = gallery.scrollLeft + gallery.clientWidth / 2;
+      let best = 0, bestDist = Infinity;
+      items.forEach((el, i) => {
+        const mid = el.offsetLeft + el.clientWidth / 2;
+        const dist = Math.abs(mid - center);
+        if (dist < bestDist) { bestDist = dist; best = i; }
+      });
+      if (best !== currentImageIndex) {
+        currentImageIndex = best;
+        updateIndicator();
+        updateButtonsState();
+      }
+    }, 80);
+  }, { passive: true });
+  
+  updateButtonsState();
+}
 
 function handleSwipe() {
   const swipeThreshold = 50;
@@ -290,5 +386,17 @@ lightbox?.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && lightbox?.classList.contains('active')) {
     closeLightbox();
+  }
+  
+  // Gallery navigation with keyboard
+  if (!lightbox?.classList.contains('active')) {
+    // because we normalized scroll container to LTR, map keys explicitly
+    if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      prevImage();
+    } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      nextImage();
+    }
   }
 });
