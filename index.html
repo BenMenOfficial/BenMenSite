@@ -392,6 +392,13 @@
           <label for="message">הודעה</label>
           <textarea id="message" name="message" required></textarea>
 
+          <div class="privacy-checkbox-container">
+            <label class="privacy-checkbox-label">
+              <input type="checkbox" id="privacy-agreement" name="privacy-agreement" required />
+              <span>אני מסכים ל</span><a href="#" class="privacy-link" id="privacy-link">מדיניות הפרטיות</a> <span>של האתר</span>
+            </label>
+          </div>
+
           <button type="submit">שלח</button>
         </form>
         <p
@@ -401,6 +408,71 @@
           תודה על פנייתך! הודעתך נשלחה בהצלחה ונחזור אליך בהקדם.
         </p>
       </section>
+
+      <!-- Privacy Policy Lightbox -->
+      <div class="privacy-lightbox-overlay" id="privacyLightbox" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="privacy-lightbox-content">
+          <button class="privacy-lightbox-close" aria-label="סגור" id="privacyLightboxClose">✕</button>
+          <div class="privacy-lightbox-header">
+            <h2>מדיניות הפרטיות</h2>
+            <p>הגנה על הפרטיות שלך היא חשובה לנו</p>
+          </div>
+          
+          <div class="privacy-lightbox-body">
+            <div class="privacy-section">
+              <h3>1. איסוף מידע אישי</h3>
+              <p>כאשר אתה שולח הודעה דרך טופס יצירת הקשר, אנו אוספים את המידע שאתה מספק:</p>
+              <ul>
+                <li>שם</li>
+                <li>כתובת אימייל</li>
+                <li>תוכן ההודעה</li>
+              </ul>
+            </div>
+
+            <div class="privacy-section">
+              <h3>2. מטרת השימוש</h3>
+              <p>המידע נועד אך ורק למתן מענה לפנייה שלך.</p>
+            </div>
+
+            <div class="privacy-section">
+              <h3>3. שמירת מידע</h3>
+              <p>המידע נשמר לתקופה קצרה הדרושה לטיפול בפנייה בלבד. לאחר מכן, הוא נמחק או נשמר בצורה מוגבלת לצרכים מנהליים בלבד.</p>
+            </div>
+
+            <div class="privacy-section">
+              <h3>4. שיתוף מידע עם צדדים שלישיים</h3>
+              <p>המידע לא יועבר לצדדים שלישיים, אלא אם קיימת חובה חוקית לכך.</p>
+            </div>
+
+            <div class="privacy-section">
+              <h3>5. תוכן ההודעה ואחריות</h3>
+              <p>אתר זה לא אחראי לתוכן ההודעות שהמשתמשים שולחים, לרבות מידע אישי, מסרים או קישורים המופיעים בגוף ההודעה. המשתמש אחראי באופן מלא על התוכן שהוא שולח.</p>
+            </div>
+
+            <div class="privacy-section">
+              <h3>6. זכויותיך</h3>
+              <ul>
+                <li>בקשה לקבל עותק מהמידע שלך</li>
+                <li>בקשה למחיקת המידע בכל עת</li>
+              </ul>
+            </div>
+
+            <div class="privacy-section">
+              <h3>7. אמצעי הגנה</h3>
+              <p>אנו פועלים לשמירה על סודיות ואבטחת המידע באמצעים טכנולוגיים ומנהליים סבירים.</p>
+            </div>
+
+            <div class="privacy-section">
+              <h3>8. הסכמה</h3>
+              <p>שליחת הודעה דרך הטופס מהווה אישור והסכמה למדיניות פרטיות זו.</p>
+            </div>
+          </div>
+
+          <div class="privacy-lightbox-footer">
+            <p class="last-updated">עודכן לאחרונה: ינואר 2025</p>
+          </div>
+        </div>
+      </div>
 
       <footer id="social">
         <div class="footer-content">
