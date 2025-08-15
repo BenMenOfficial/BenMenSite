@@ -57,6 +57,15 @@ const confirmationMessage = document.getElementById("confirmation-message");
 
 form?.addEventListener("submit", async (event) => {
   event.preventDefault();
+  
+  // Check if privacy agreement is checked
+  const privacyCheckbox = document.getElementById("privacy-agreement");
+  if (!privacyCheckbox.checked) {
+    alert("עליך להסכים למדיניות הפרטיות כדי לשלוח את הטופס");
+    privacyCheckbox.focus();
+    return;
+  }
+  
   try {
     const response = await fetch(form.action, {
       method: form.method,
@@ -155,10 +164,52 @@ function createConfetti() {
   }
 }
 
+// Privacy Policy Lightbox functionality
+function initializePrivacyLightbox() {
+  const privacyLink = document.getElementById("privacy-link");
+  const privacyLightbox = document.getElementById("privacyLightbox");
+  const privacyLightboxClose = document.getElementById("privacyLightboxClose");
+
+  if (privacyLink && privacyLightbox && privacyLightboxClose) {
+    privacyLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      privacyLightbox.classList.add("active");
+      privacyLightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    });
+
+    privacyLightboxClose.addEventListener("click", () => {
+      closePrivacyLightbox();
+    });
+
+    privacyLightbox.addEventListener("click", (e) => {
+      if (e.target === privacyLightbox) {
+        closePrivacyLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && privacyLightbox.classList.contains("active")) {
+        closePrivacyLightbox();
+      }
+    });
+  }
+}
+
+function closePrivacyLightbox() {
+  const privacyLightbox = document.getElementById("privacyLightbox");
+  if (privacyLightbox) {
+    privacyLightbox.classList.remove("active");
+    privacyLightbox.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+}
+
 // Initialize effects
 document.addEventListener("DOMContentLoaded", () => {
   createDigitalRain();
   updateVisitorCounter();
+  initializePrivacyLightbox();
   
   // Initialize gallery after a short delay to ensure DOM is ready
   setTimeout(() => {
