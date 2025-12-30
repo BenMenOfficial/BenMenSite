@@ -113,6 +113,16 @@ document.querySelectorAll(".nav-links a").forEach((link) => {
   });
 });
 
+// Scroll to top when clicking the desktop logo (and other nav logos)
+document.querySelectorAll(".nav-logo").forEach((logo) => {
+  logo.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  });
+});
+
 // Digital Rain Effect
 function createDigitalRain() {
   const rainContainer = document.getElementById("digitalRain");
