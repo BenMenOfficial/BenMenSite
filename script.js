@@ -266,7 +266,6 @@ function initializeGallery() {
 }
 
 
-
 // New simple gallery scroller
 let currentImageIndex = 0;
 let totalImages = 0;
