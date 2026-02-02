@@ -126,7 +126,15 @@ document.querySelectorAll(".nav-logo").forEach((logo) => {
 // Digital Rain Effect
 function createDigitalRain() {
   const rainContainer = document.getElementById("digitalRain");
-  const dropsCount = 100;
+  const dropsCount = 120;
+  const colors = [
+    'rgba(249, 115, 22, 0.9)', // orange - brighter
+    'rgba(251, 191, 36, 0.9)', // gold - brighter
+    'rgba(249, 115, 22, 0.7)', // lighter orange
+    'rgba(251, 191, 36, 0.7)', // lighter gold
+    'rgba(255, 140, 0, 0.8)',  // deep orange
+    'rgba(255, 215, 0, 0.8)'   // bright gold
+  ];
 
   for (let i = 0; i < dropsCount; i++) {
     const drop = document.createElement("div");
@@ -134,6 +142,10 @@ function createDigitalRain() {
     drop.style.left = `${Math.random() * 100}%`;
     drop.style.animationDuration = `${2 + Math.random() * 3}s`;
     drop.style.animationDelay = `${Math.random() * 5}s`;
+    // Random color from orange/gold palette
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    drop.style.background = `linear-gradient(to bottom, transparent, ${randomColor})`;
+    drop.style.opacity = `${0.7 + Math.random() * 0.3}`; // Random opacity between 0.7-1.0
     rainContainer.appendChild(drop);
   }
 }
@@ -228,6 +240,11 @@ document.addEventListener("DOMContentLoaded", () => {
     window.nextImage = nextImage;
     window.prevImage = prevImage;
   }, 200);
+  
+  // Initialize FAQ after DOM is fully ready
+  setTimeout(() => {
+    initializeFAQ();
+  }, 300);
 });
 
 
@@ -264,6 +281,7 @@ function initializeGallery() {
     // no extra trackers needed; handled in attachGalleryControls
   }
 }
+
 
 
 // New simple gallery scroller
@@ -460,3 +478,173 @@ document.addEventListener('keydown', (e) => {
     }
   }
 });
+
+// Animated Statistics Counter
+function animateCounter(element, target, duration = 2000) {
+  const start = 0;
+  const increment = target / (duration / 16);
+  let current = start;
+  const isHours = target === 24;
+  
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      if (isHours) {
+        element.textContent = '24/7';
+      } else if (target >= 50) {
+        element.textContent = target + '+';
+      } else {
+        element.textContent = target;
+      }
+      clearInterval(timer);
+    } else {
+      if (isHours) {
+        element.textContent = Math.floor(current) + '/7';
+      } else if (target >= 50) {
+        element.textContent = Math.floor(current) + '+';
+      } else {
+        element.textContent = Math.floor(current);
+      }
+    }
+  }, 16);
+}
+
+// Observe statistics section for animation
+const statsSection = document.querySelector('.stats-section');
+if (statsSection) {
+  const statsObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const statNumbers = entry.target.querySelectorAll('.stat-number');
+          statNumbers.forEach((stat) => {
+            const target = parseInt(stat.getAttribute('data-target'));
+            if (target) {
+              const currentText = stat.textContent.trim();
+              // Only animate if it hasn't been animated yet (starts with 0)
+              if (currentText.startsWith('0')) {
+                animateCounter(stat, target);
+              }
+            }
+          });
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+  
+  statsObserver.observe(statsSection);
+}
+
+// FAQ Accordion
+function initializeFAQ() {
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  if (faqItems.length === 0) {
+    return;
+  }
+  
+  faqItems.forEach((item, index) => {
+    const question = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
+    
+    if (!question || !answer) {
+      return;
+    }
+    
+    // Make sure answer is initially closed
+    answer.style.maxHeight = '0';
+    answer.style.padding = '0 1.5rem';
+    question.setAttribute('aria-expanded', 'false');
+    
+    let isAnimating = false;
+    
+    // Add click event to the button
+    question.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Prevent rapid clicking
+      if (isAnimating) {
+        return;
+      }
+      
+      const isExpanded = question.getAttribute('aria-expanded') === 'true';
+      
+      // Toggle current FAQ (allow multiple FAQs to be open)
+      isAnimating = true;
+      
+      if (isExpanded) {
+        // Close - get current height
+        const startHeight = answer.scrollHeight;
+        
+        // Set explicit height first (no transition yet)
+        answer.style.maxHeight = startHeight + 'px';
+        answer.style.padding = '0 1.5rem 1.5rem 1.5rem';
+        answer.style.transition = 'none';
+        
+        // Update state
+        question.setAttribute('aria-expanded', 'false');
+        item.removeAttribute('data-expanded');
+        
+        // Update other elements
+        item.style.transition = 'border 0.15s ease, box-shadow 0.15s ease, background 0.15s ease';
+        question.style.transition = 'background 0.15s ease, color 0.15s ease';
+        const icon = question.querySelector('.faq-icon');
+        if (icon) icon.style.transition = 'background 0.15s ease, box-shadow 0.15s ease';
+        const iconSvg = icon?.querySelector('svg');
+        if (iconSvg) iconSvg.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 1, 1)';
+        
+        // Force reflow to apply the height
+        void answer.offsetHeight;
+        
+        // Now add transition and animate to 0
+        answer.style.transition = 'max-height 0.3s cubic-bezier(0.4, 0, 1, 1), padding 0.3s cubic-bezier(0.4, 0, 1, 1)';
+        answer.style.maxHeight = '0';
+        answer.style.padding = '0 1.5rem';
+        
+        // Cleanup after animation
+        setTimeout(() => {
+          answer.style.transition = '';
+          answer.style.maxHeight = '';
+          answer.style.padding = '';
+          item.style.transition = '';
+          question.style.transition = '';
+          if (icon) icon.style.transition = '';
+          if (iconSvg) iconSvg.style.transition = '';
+          isAnimating = false;
+        }, 300);
+      } else {
+        // Open
+        answer.style.transition = 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        answer.style.maxHeight = '0';
+        answer.style.padding = '0 1.5rem';
+        
+        // Update state
+        question.setAttribute('aria-expanded', 'true');
+        item.setAttribute('data-expanded', 'true');
+        
+        // Restore transitions
+        item.style.transition = '';
+        question.style.transition = '';
+        const icon = question.querySelector('.faq-icon');
+        if (icon) icon.style.transition = '';
+        const iconSvg = icon?.querySelector('svg');
+        if (iconSvg) iconSvg.style.transition = '';
+        
+        // Force reflow
+        void answer.offsetHeight;
+        
+        // Animate to open
+        answer.style.maxHeight = '2000px';
+        answer.style.padding = '0 1.5rem 1.5rem 1.5rem';
+        
+        // Reset animation lock
+        setTimeout(() => {
+          isAnimating = false;
+        }, 400);
+      }
+    }, true); // Use capture phase
+  });
+}
