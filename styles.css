@@ -468,7 +468,7 @@ header img {
 /* Statistics Section */
 .stats-section {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin: 3rem 0;
   padding: 2rem;
@@ -476,6 +476,10 @@ header img {
   border-radius: 12px;
   border: 1px solid rgba(0, 247, 255, 0.3);
   box-shadow: 0 0 20px rgba(0, 247, 255, 0.15);
+  justify-items: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .stat-item {
