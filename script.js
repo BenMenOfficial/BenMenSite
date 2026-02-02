@@ -484,23 +484,18 @@ function animateCounter(element, target, duration = 2000) {
   const start = 0;
   const increment = target / (duration / 16);
   let current = start;
-  const isHours = target === 24;
   
   const timer = setInterval(() => {
     current += increment;
     if (current >= target) {
-      if (isHours) {
-        element.textContent = '24/7';
-      } else if (target >= 50) {
+      if (target >= 50) {
         element.textContent = target + '+';
       } else {
         element.textContent = target;
       }
       clearInterval(timer);
     } else {
-      if (isHours) {
-        element.textContent = Math.floor(current) + '/7';
-      } else if (target >= 50) {
+      if (target >= 50) {
         element.textContent = Math.floor(current) + '+';
       } else {
         element.textContent = Math.floor(current);
