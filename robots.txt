@@ -23,6 +23,6 @@ Allow: /*.svg$
 Allow: /*.ico$
 
 # Specify the location of the sitemap
-Sitemap: https://benjaminkunin.com/sitemap.xml
+Sitemap: https://benmenofficial.github.io/BenMenSite/sitemap.xml
 
 # Crawl-delay: 10  # Optional: Limit crawl rate to 1 request per 10 seconds 
