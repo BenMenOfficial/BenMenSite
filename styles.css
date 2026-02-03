@@ -278,7 +278,7 @@ header {
   top: 20px;
   right: 25px;
 }
-
+ 
 #home > *:not(.bsd-text) {
   position: relative;
   z-index: 1;
