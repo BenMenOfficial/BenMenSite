@@ -1,93 +1,212 @@
+// Cookie consent & Google Analytics (נטען רק בהסכמה)
+const COOKIE_CONSENT_KEY = "benmen-cookie-consent";
+const GA_MEASUREMENT_ID = "G-7XWXNBW6L1";
+
+function getCookieConsent() {
+  try {
+    const value = localStorage.getItem(COOKIE_CONSENT_KEY);
+    if (value === "accepted" || value === "essential") return value;
+  } catch {
+    /* localStorage unavailable */
+  }
+  return null;
+}
+
+function setCookieConsent(value) {
+  try {
+    localStorage.setItem(COOKIE_CONSENT_KEY, value);
+  } catch {
+    /* ignore */
+  }
+}
+
+function loadGoogleAnalytics() {
+  if (window.__benmenGaLoaded) return;
+  window.__benmenGaLoaded = true;
+  window.dataLayer = window.dataLayer || [];
+  window.gtag =
+    window.gtag ||
+    function gtag() {
+      window.dataLayer.push(arguments);
+    };
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  script.onload = () => {
+    window.gtag("js", new Date());
+    window.gtag("config", GA_MEASUREMENT_ID, { anonymize_ip: true });
+  };
+  document.head.appendChild(script);
+}
+
+function showCookieBanner() {
+  const banner = document.getElementById("cookie-banner");
+  if (!banner) return;
+  banner.hidden = false;
+  banner.setAttribute("aria-hidden", "false");
+  document.body.classList.add("cookie-banner-open");
+  requestAnimationFrame(() => banner.classList.add("is-visible"));
+}
+
+function hideCookieBanner() {
+  const banner = document.getElementById("cookie-banner");
+  if (!banner) return;
+  banner.classList.remove("is-visible");
+  banner.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("cookie-banner-open");
+  setTimeout(() => {
+    banner.hidden = true;
+  }, 280);
+}
+
+function applyCookieConsent(choice) {
+  setCookieConsent(choice);
+  if (choice === "accepted") {
+    loadGoogleAnalytics();
+  }
+  hideCookieBanner();
+}
+
+function openPrivacyFromCookie() {
+  const privacyLink = document.getElementById("privacy-link");
+  privacyLink?.click();
+}
+
+function initializeCookieConsent() {
+  const acceptBtn = document.getElementById("cookie-accept");
+  const essentialBtn = document.getElementById("cookie-essential");
+  const privacyBtn = document.getElementById("cookie-privacy-link");
+  const settingsBtn = document.getElementById("cookie-settings-link");
+  const footerPrivacyBtn = document.getElementById("footer-privacy-link");
+
+  acceptBtn?.addEventListener("click", () => applyCookieConsent("accepted"));
+  essentialBtn?.addEventListener("click", () => applyCookieConsent("essential"));
+  privacyBtn?.addEventListener("click", openPrivacyFromCookie);
+  settingsBtn?.addEventListener("click", () => showCookieBanner());
+  footerPrivacyBtn?.addEventListener("click", openPrivacyFromCookie);
+
+  const stored = getCookieConsent();
+  if (stored === "accepted") {
+    loadGoogleAnalytics();
+    return;
+  }
+  if (stored === "essential") {
+    return;
+  }
+  showCookieBanner();
+}
+
 // Loading screen
 window.addEventListener("load", () => {
   const loadingScreen = document.querySelector(".loading-screen");
+  if (!loadingScreen) return;
   loadingScreen.style.opacity = "0";
   setTimeout(() => {
     loadingScreen.style.display = "none";
-  }, 500);
+  }, 400);
 });
-// Improved smooth scroll for navigation links (ignore external/lightbox links)
+
+// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
-    if (this.hasAttribute('data-ignore-smooth')) return; // allow default
+    if (this.hasAttribute("data-ignore-smooth")) return;
     const hrefVal = this.getAttribute("href") || "";
-    if (!hrefVal.startsWith('#')) return;
+    if (!hrefVal.startsWith("#") || hrefVal === "#") return;
+    const targetElement = document.querySelector(hrefVal);
+    if (!targetElement) return;
     e.preventDefault();
-    const targetId = hrefVal;
-    const targetElement = document.querySelector(targetId);
-    const navEl = document.querySelector("nav");
-    const isFixed = navEl && getComputedStyle(navEl).position === "fixed";
-    const headerOffset = isFixed ? 100 : 0;
-    const elementPosition = targetElement.getBoundingClientRect().top;
-    const offsetPosition =
-      elementPosition + window.pageYOffset - headerOffset;
- 
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
+    const navEl = document.getElementById("main-nav");
+    const headerOffset = navEl ? 80 : 0;
+    const top =
+      targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+    window.scrollTo({ top, behavior: "smooth" });
   });
 });
 
-// Add scroll animation to sections
+// Nav scroll state
+const mainNav = document.getElementById("main-nav");
+
+function onScroll() {
+  const y = window.scrollY;
+  if (mainNav) mainNav.classList.toggle("scrolled", y > 40);
+}
+
+window.addEventListener("scroll", onScroll, { passive: true });
+onScroll();
+
+// Active nav link
+const navLinkEls = document.querySelectorAll(".nav-links a[href^='#']");
+const sectionIds = ["about", "skills", "catalog", "gallery", "faq", "contact"];
+
+function updateActiveNav() {
+  const scrollPos = window.scrollY + 120;
+  let current = "";
+  sectionIds.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollPos) current = id;
+  });
+  navLinkEls.forEach((link) => {
+    const href = link.getAttribute("href")?.slice(1);
+    link.classList.toggle("active", href === current);
+  });
+}
+
+window.addEventListener("scroll", updateActiveNav, { passive: true });
+updateActiveNav();
+
+// Section reveal
 const sections = document.querySelectorAll("section");
-const observer = new IntersectionObserver(
+const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = "1";
-        entry.target.style.transform = "translateY(0)";
+        entry.target.classList.add("reveal-visible");
+        revealObserver.unobserve(entry.target);
       }
     });
   },
-  { threshold: 0.1 }
+  { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
 );
 
 sections.forEach((section) => {
-  section.style.opacity = "0";
-  section.style.transform = "translateY(20px)";
-  section.style.transition = "all 0.6s ease-out";
-  observer.observe(section);
+  section.classList.add("reveal-ready");
+  revealObserver.observe(section);
 });
 
-// Form submission handling
+// Form
 const form = document.getElementById("contact-form");
 const confirmationMessage = document.getElementById("confirmation-message");
 
 form?.addEventListener("submit", async (event) => {
   event.preventDefault();
-  
-  // Check if privacy agreement is checked
   const privacyCheckbox = document.getElementById("privacy-agreement");
-  if (!privacyCheckbox.checked) {
+  if (!privacyCheckbox?.checked) {
     alert("עליך להסכים למדיניות הפרטיות כדי לשלוח את הטופס");
-    privacyCheckbox.focus();
+    privacyCheckbox?.focus();
     return;
   }
-  
   try {
     const response = await fetch(form.action, {
       method: form.method,
       body: new FormData(form),
       headers: { Accept: "application/json" },
     });
-
     if (response.ok) {
       createConfetti();
       form.reset();
-      confirmationMessage.style.display = "block";
+      if (confirmationMessage) confirmationMessage.style.display = "block";
       setTimeout(() => {
-        confirmationMessage.style.display = "none";
+        if (confirmationMessage) confirmationMessage.style.display = "none";
       }, 5000);
     } else {
       alert("אירעה תקלה בשליחת הטופס. אנא נסה שנית.");
     }
-  } catch (error) {
+  } catch {
     alert("אירעה שגיאה. אנא בדוק את חיבור האינטרנט שלך ונסה שוב.");
   }
 });
 
-// Add menu toggle functionality
+// Mobile menu
 const menuToggle = document.querySelector(".menu-toggle");
 const navLinks = document.querySelector(".nav-links");
 
@@ -96,549 +215,228 @@ menuToggle?.addEventListener("click", () => {
   menuToggle.setAttribute("aria-expanded", String(isActive));
 });
 
-// Close menu when clicking outside
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".nav-container")) {
-    navLinks.classList.remove("active");
+    navLinks?.classList.remove("active");
     menuToggle?.setAttribute("aria-expanded", "false");
   }
 });
 
-// Close menu when clicking a link
 document.querySelectorAll(".nav-links a").forEach((link) => {
   link.addEventListener("click", () => {
-    navLinks.classList.remove("active");
+    navLinks?.classList.remove("active");
     menuToggle?.setAttribute("aria-expanded", "false");
   });
 });
 
-// Scroll to top when clicking the desktop logo (and other nav logos)
-document.querySelectorAll(".nav-logo").forEach((logo) => {
-  logo.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  });
-});
-
-// Digital Rain Effect
-function createDigitalRain() {
-  const rainContainer = document.getElementById("digitalRain");
-  const dropsCount = 120;
-  const colors = [
-    'rgba(249, 115, 22, 0.9)', // orange - brighter
-    'rgba(251, 191, 36, 0.9)', // gold - brighter
-    'rgba(249, 115, 22, 0.7)', // lighter orange
-    'rgba(251, 191, 36, 0.7)', // lighter gold
-    'rgba(255, 140, 0, 0.8)',  // deep orange
-    'rgba(255, 215, 0, 0.8)'   // bright gold
-  ];
-
-  for (let i = 0; i < dropsCount; i++) {
-    const drop = document.createElement("div");
-    drop.className = "rain-drop";
-    drop.style.left = `${Math.random() * 100}%`;
-    drop.style.animationDuration = `${2 + Math.random() * 3}s`;
-    drop.style.animationDelay = `${Math.random() * 5}s`;
-    // Random color from orange/gold palette
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    drop.style.background = `linear-gradient(to bottom, transparent, ${randomColor})`;
-    drop.style.opacity = `${0.7 + Math.random() * 0.3}`; // Random opacity between 0.7-1.0
-    rainContainer.appendChild(drop);
-  }
-}
-
-// Visitor Counter
-function updateVisitorCounter() {
-  try {
-    let count = localStorage.getItem("visitorCount") || 0;
-    count = parseInt(count) + 1;
-    localStorage.setItem("visitorCount", count);
-    const counterEl = document.querySelector(".counter-number");
-    if (counterEl) {
-      counterEl.textContent = count;
-    }
-  } catch (_) {
-    // ignore counter errors
-  }
-}
-
-// Confetti Effect
+// Confetti
 function createConfetti() {
-  const colors = ["#00f7ff", "#4deeea", "#00b7ff"];
-  const confettiCount = 100;
-
-  for (let i = 0; i < confettiCount; i++) {
+  const colors = ["#22d3ee", "#34d399", "#fbbf24"];
+  for (let i = 0; i < 60; i++) {
     const confetti = document.createElement("div");
     confetti.className = "confetti";
     confetti.style.left = `${Math.random() * 100}%`;
-    confetti.style.backgroundColor =
-      colors[Math.floor(Math.random() * colors.length)];
-    confetti.style.animationDuration = `${2 + Math.random() * 3}s`;
-    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animation = `confetti-fall ${2 + Math.random() * 2}s ease-out forwards`;
+    confetti.style.animationDelay = `${Math.random() * 0.3}s`;
     document.body.appendChild(confetti);
-
-    setTimeout(() => {
-      confetti.remove();
-    }, 3000);
+    setTimeout(() => confetti.remove(), 3500);
   }
 }
 
-// Privacy Policy Lightbox functionality
+// Privacy lightbox
 function initializePrivacyLightbox() {
   const privacyLink = document.getElementById("privacy-link");
   const privacyLightbox = document.getElementById("privacyLightbox");
   const privacyLightboxClose = document.getElementById("privacyLightboxClose");
 
-  if (privacyLink && privacyLightbox && privacyLightboxClose) {
-    privacyLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      privacyLightbox.classList.add("active");
-      privacyLightbox.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-    });
+  privacyLink?.addEventListener("click", (e) => {
+    e.preventDefault();
+    privacyLightbox?.classList.add("active");
+    privacyLightbox?.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  });
 
-    privacyLightboxClose.addEventListener("click", () => {
+  privacyLightboxClose?.addEventListener("click", closePrivacyLightbox);
+  privacyLightbox?.addEventListener("click", (e) => {
+    if (e.target === privacyLightbox) closePrivacyLightbox();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && privacyLightbox?.classList.contains("active")) {
       closePrivacyLightbox();
-    });
-
-    privacyLightbox.addEventListener("click", (e) => {
-      if (e.target === privacyLightbox) {
-        closePrivacyLightbox();
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && privacyLightbox.classList.contains("active")) {
-        closePrivacyLightbox();
-      }
-    });
-  }
+    }
+  });
 }
 
 function closePrivacyLightbox() {
   const privacyLightbox = document.getElementById("privacyLightbox");
-  if (privacyLightbox) {
-    privacyLightbox.classList.remove("active");
-    privacyLightbox.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-  }
+  privacyLightbox?.classList.remove("active");
+  privacyLightbox?.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
 }
 
-// Initialize effects
-document.addEventListener("DOMContentLoaded", () => {
-  createDigitalRain();
-  updateVisitorCounter();
-  initializePrivacyLightbox();
-  
-  // Initialize gallery after a short delay to ensure DOM is ready
-  setTimeout(() => {
-    initializeGallery();
-    // expose gallery navigation to inline onclick handlers
-    window.nextImage = nextImage;
-    window.prevImage = prevImage;
-  }, 200);
-  
-  // Initialize FAQ after DOM is fully ready
-  setTimeout(() => {
-    initializeFAQ();
-  }, 300);
-});
-
-
-
-// Enhanced touch swipe support and scroll tracking
-let gallery = null;
-let touchStartX = 0;
-let touchEndX = 0;
-let isScrolling = false;
-
-function initializeGallery() {
-  gallery = document.querySelector(".gallery-grid");
-  
-  if (gallery) {
-    // setup new simple controls
-    recalcGallery();
-    attachGalleryControls();
-    gallery.addEventListener("touchstart", (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-      isScrolling = false;
-    });
-
-    gallery.addEventListener("touchmove", (e) => {
-      isScrolling = true;
-    });
-
-    gallery.addEventListener("touchend", (e) => {
-      if (!isScrolling) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-      }
-    });
-
-    // no extra trackers needed; handled in attachGalleryControls
-  }
-}
-
-
-
-// New simple gallery scroller
-let currentImageIndex = 0;
-let totalImages = 0;
-
-function recalcGallery() {
-  const gallery = document.querySelector('.gallery-grid');
-  const items = gallery ? Array.from(gallery.querySelectorAll('.gallery-item')) : [];
-  totalImages = items.length;
-  if (currentImageIndex >= totalImages) currentImageIndex = Math.max(0, totalImages - 1);
-  const totalEl = document.getElementById('totalImagesNumber');
-  if (totalEl) totalEl.textContent = String(totalImages || 1);
-  updateIndicator();
-}
-
-function updateIndicator() {
-  const currEl = document.getElementById('currentImageNumber');
-  if (currEl) currEl.textContent = String((currentImageIndex || 0) + 1);
-}
-
-function attachGalleryControls() {
-  const gallery = document.querySelector('.gallery-grid');
-  if (!gallery) return;
-  const prevBtn = document.getElementById('galleryPrev');
-  const nextBtn = document.getElementById('galleryNext');
-  const items = Array.from(gallery.querySelectorAll('.gallery-item'));
-  let isAutoScrolling = false;
-  let scrollDebounceId = null;
-  
-  function goTo(index) {
-    if (index < 0 || index >= items.length) return;
-    currentImageIndex = index;
-    isAutoScrolling = true;
-    const el = items[index];
-    const container = gallery;
-    const targetLeft = el.offsetLeft - (container.clientWidth - el.clientWidth) / 2;
-    container.scrollTo({ left: targetLeft, behavior: 'smooth' });
-    updateIndicator();
-    updateButtonsState();
-    // unlock after animation
-    clearTimeout(scrollDebounceId);
-    scrollDebounceId = setTimeout(() => {
-      isAutoScrolling = false;
-    }, 400);
-  }
-  
-  function updateButtonsState() {
-    if (prevBtn) prevBtn.disabled = currentImageIndex <= 0;
-    if (nextBtn) nextBtn.disabled = currentImageIndex >= items.length - 1;
-  }
-  
-  prevBtn?.addEventListener('click', (e) => { e.preventDefault(); goTo(currentImageIndex - 1); });
-  nextBtn?.addEventListener('click', (e) => { e.preventDefault(); goTo(currentImageIndex + 1); });
-  
-  // sync on manual scroll
-  gallery.addEventListener('scroll', () => {
-    if (isAutoScrolling) return;
-    clearTimeout(scrollDebounceId);
-    scrollDebounceId = setTimeout(() => {
-      const center = gallery.scrollLeft + gallery.clientWidth / 2;
-      let best = 0, bestDist = Infinity;
-      items.forEach((el, i) => {
-        const mid = el.offsetLeft + el.clientWidth / 2;
-        const dist = Math.abs(mid - center);
-        if (dist < bestDist) { bestDist = dist; best = i; }
-      });
-      if (best !== currentImageIndex) {
-        currentImageIndex = best;
-        updateIndicator();
-        updateButtonsState();
-      }
-    }, 80);
-  }, { passive: true });
-  
-  updateButtonsState();
-}
-
-function handleSwipe() {
-  const swipeThreshold = 50;
-  if (touchEndX < touchStartX - swipeThreshold) {
-    nextImage();
-  } else if (touchEndX > touchStartX + swipeThreshold) {
-    prevImage();
-  }
-}
-
-// Lightbox functionality
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightboxImg');
-const lightboxTitle = document.getElementById('lightboxTitle');
-const lightboxDesc = document.getElementById('lightboxDesc');
-const lightboxTags = document.getElementById('lightboxTags');
-const lightboxLink = document.getElementById('lightboxLink');
-const lightboxClose = document.getElementById('lightboxClose');
+// Lightbox
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxTitle = document.getElementById("lightboxTitle");
+const lightboxDesc = document.getElementById("lightboxDesc");
+const lightboxTags = document.getElementById("lightboxTags");
+const lightboxLink = document.getElementById("lightboxLink");
+const lightboxClose = document.getElementById("lightboxClose");
 
 function openLightboxFromItem(item) {
-  const img = item.querySelector('img');
-  lightboxImg.src = img?.src || '';
-  lightboxImg.alt = img?.alt || 'תצוגת פרויקט';
-  lightboxTitle.textContent = item.getAttribute('data-title') || img?.alt || 'פרויקט';
+  const img = item.querySelector("img");
+  if (lightboxImg) {
+    lightboxImg.src = img?.src || "";
+    lightboxImg.alt = img?.alt || "תצוגת פרויקט";
+  }
+  if (lightboxTitle)
+    lightboxTitle.textContent = item.getAttribute("data-title") || img?.alt || "פרויקט";
 
-  // description: prefer data-description; otherwise generate from alt/tags
-  const explicitDesc = item.getAttribute('data-description') || '';
-  if (explicitDesc) {
-    lightboxDesc.textContent = explicitDesc;
-  } else {
-    const generated = generateAutoDescription(img?.alt || '', item.getAttribute('data-tags') || '');
-    lightboxDesc.textContent = generated;
+  const explicitDesc = item.getAttribute("data-description") || "";
+  if (lightboxDesc) {
+    lightboxDesc.textContent = explicitDesc
+      ? explicitDesc
+      : generateAutoDescription(img?.alt || "", item.getAttribute("data-tags") || "");
   }
 
-  // tags
-  lightboxTags.innerHTML = '';
-  const tagsStr = item.getAttribute('data-tags') || '';
-  if (tagsStr) {
-    tagsStr.split(',').map(t => t.trim()).filter(Boolean).forEach(tag => {
-      const chip = document.createElement('span');
-      chip.className = 'tag-chip';
-      chip.textContent = tag;
-      lightboxTags.appendChild(chip);
-    });
+  if (lightboxTags) {
+    lightboxTags.innerHTML = "";
+    const tagsStr = item.getAttribute("data-tags") || "";
+    tagsStr
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean)
+      .forEach((tag) => {
+        const chip = document.createElement("span");
+        chip.className = "tag-chip";
+        chip.textContent = tag;
+        lightboxTags.appendChild(chip);
+      });
   }
 
-  const link = item.getAttribute('data-link');
-  if (link) {
-    lightboxLink.href = link;
-    lightboxLink.style.display = 'inline-flex';
-  } else {
-    lightboxLink.style.display = 'none';
+  const link = item.getAttribute("data-link");
+  if (lightboxLink) {
+    if (link) {
+      lightboxLink.href = link;
+      lightboxLink.style.display = "inline-flex";
+    } else {
+      lightboxLink.style.display = "none";
+    }
   }
 
-  lightbox.classList.add('active');
-  lightbox.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
+  lightbox?.classList.add("active");
+  lightbox?.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
 }
 
 function generateAutoDescription(altText, tagsStr) {
-  const normalized = (altText || '').trim();
-  const tags = (tagsStr || '').split(',').map(t => t.trim()).filter(Boolean);
-  const tagsSentence = tags.length ? ` טכנולוגיות: ${tags.join(', ')}.` : '';
-
-  const contains = (kw) => normalized.includes(kw);
-  if (contains('לוגו')) {
-    return `עיצוב לוגו ממותג המדגיש בהירות וקריאות בכל קנה מידה, עם קו וקטורי נקי ופלטת צבעים עקבית.${tagsSentence}`;
-  }
-  if (contains('כרטיס ביקור')) {
-    return `כרטיס ביקור מינימליסטי עם היררכיית מידע ברורה, מרווחים מאוזנים והתאמה לדפוס ורשת.${tagsSentence}`;
-  }
-  if (contains('פוסטר')) {
-    return `פוסטר פרסומי בעל קומפוזיציה מודגשת, טיפוגרפיה בולטת וניגודיות צבעים לשיפור תשומת הלב.${tagsSentence}`;
-  }
-  if (contains('עיצוב אתר') || contains('אתר')) {
-    return `ממשק אתר רספונסיבי עם דגש על UX נקי, קצב טיפוגרפי קריא ונגישות גבוהה במובייל ובדסקטופ.${tagsSentence}`;
-  }
-  if (contains('עיצוב מוצר')) {
-    return `עיצוב מוצר חזותי השומר על זהות מותג עקבית, איזון צבעים והדגשת ערך שימושי.${tagsSentence}`;
-  }
-  if (contains('עיצוב גרפי')) {
-    return `קונספט עיצוב גרפי עם היררכיית מידע ברורה, טיפוגרפיה תומכת מסר וקומפוזיציה מאוזנת.${tagsSentence}`;
-  }
-  // fallback
-  return `${normalized || 'פרויקט עיצוב'} עם דגש על קריאות, אחידות מותג ורספונסיביות.${tagsSentence}`;
+  const normalized = (altText || "").trim();
+  const tags = (tagsStr || "").split(",").map((t) => t.trim()).filter(Boolean);
+  const tagsSentence = tags.length ? ` טכנולוגיות: ${tags.join(", ")}.` : "";
+  if (normalized.includes("לוגו"))
+    return `עיצוב לוגו ממותג עם קו נקי ופלטת צבעים עקבית.${tagsSentence}`;
+  if (normalized.includes("כרטיס ביקור"))
+    return `כרטיס ביקור עם היררכיית מידע ברורה והתאמה לדפוס ורשת.${tagsSentence}`;
+  if (normalized.includes("פוסטר"))
+    return `פוסטר שיווקי עם קומפוזיציה בולטת וניגודיות צבעים.${tagsSentence}`;
+  if (normalized.includes("אתר"))
+    return `ממשק אתר רספונסיבי עם דגש על UX נקי ונגישות.${tagsSentence}`;
+  return `${normalized || "פרויקט עיצוב"} עם דגש על קריאות ואחידות מותג.${tagsSentence}`;
 }
-
-document.querySelectorAll('.gallery-item').forEach(item => {
-  item.addEventListener('click', () => openLightboxFromItem(item));
-});
 
 function closeLightbox() {
-  lightbox.classList.remove('active');
-  lightbox.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
+  lightbox?.classList.remove("active");
+  lightbox?.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
 }
 
-lightboxClose?.addEventListener('click', closeLightbox);
-lightbox?.addEventListener('click', (e) => {
+document.querySelectorAll(".gallery-item").forEach((item) => {
+  item.addEventListener("click", () => openLightboxFromItem(item));
+});
+
+lightboxClose?.addEventListener("click", closeLightbox);
+lightbox?.addEventListener("click", (e) => {
   if (e.target === lightbox) closeLightbox();
 });
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && lightbox?.classList.contains('active')) {
-    closeLightbox();
-  }
-  
-  // Gallery navigation with keyboard
-  if (!lightbox?.classList.contains('active')) {
-    // because we normalized scroll container to LTR, map keys explicitly
-    if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-      e.preventDefault();
-      prevImage();
-    } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-      e.preventDefault();
-      nextImage();
-    }
-  }
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && lightbox?.classList.contains("active")) closeLightbox();
 });
 
-// Animated Statistics Counter
-function animateCounter(element, target, duration = 2000) {
-  const start = 0;
+// Stats counter
+function animateCounter(element, target, duration = 1800) {
   const increment = target / (duration / 16);
-  let current = start;
-  
+  let current = 0;
   const timer = setInterval(() => {
     current += increment;
     if (current >= target) {
-      if (target >= 50) {
-        element.textContent = target + '+';
-      } else {
-        element.textContent = target;
-      }
+      element.textContent = target >= 50 ? target + "+" : String(target);
       clearInterval(timer);
     } else {
-      if (target >= 50) {
-        element.textContent = Math.floor(current) + '+';
-      } else {
-        element.textContent = Math.floor(current);
-      }
+      element.textContent =
+        target >= 50 ? Math.floor(current) + "+" : String(Math.floor(current));
     }
   }, 16);
 }
 
-// Observe statistics section for animation
-const statsSection = document.querySelector('.stats-section');
+const statsSection = document.querySelector(".stats-section");
 if (statsSection) {
   const statsObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const statNumbers = entry.target.querySelectorAll('.stat-number');
-          statNumbers.forEach((stat) => {
-            const target = parseInt(stat.getAttribute('data-target'));
-            if (target) {
-              const currentText = stat.textContent.trim();
-              // Only animate if it hasn't been animated yet (starts with 0)
-              if (currentText.startsWith('0')) {
-                animateCounter(stat, target);
-              }
-            }
-          });
-          statsObserver.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        entry.target.querySelectorAll(".stat-number").forEach((stat) => {
+          const target = parseInt(stat.getAttribute("data-target"), 10);
+          if (target && stat.textContent.trim().startsWith("0")) {
+            animateCounter(stat, target);
+          }
+        });
+        statsObserver.unobserve(entry.target);
       });
     },
-    { threshold: 0.5 }
+    { threshold: 0.4 }
   );
-  
   statsObserver.observe(statsSection);
 }
 
-// FAQ Accordion
+// FAQ — grid 0fr/1fr (אנימציה חלקה, בלי max-height)
 function initializeFAQ() {
-  const faqItems = document.querySelectorAll('.faq-item');
-  
-  if (faqItems.length === 0) {
-    return;
-  }
-  
-  faqItems.forEach((item, index) => {
-    const question = item.querySelector('.faq-question');
-    const answer = item.querySelector('.faq-answer');
-    
-    if (!question || !answer) {
-      return;
+  document.querySelectorAll(".faq-answer").forEach((answer) => {
+    if (answer.querySelector(".faq-answer-inner")) return;
+    const inner = document.createElement("div");
+    inner.className = "faq-answer-inner";
+    while (answer.firstChild) {
+      inner.appendChild(answer.firstChild);
     }
-    
-    // Make sure answer is initially closed
-    answer.style.maxHeight = '0';
-    answer.style.padding = '0 1.5rem';
-    question.setAttribute('aria-expanded', 'false');
-    
-    let isAnimating = false;
-    
-    // Add click event to the button
-    question.addEventListener('click', function(e) {
+    answer.appendChild(inner);
+  });
+
+  document.querySelectorAll(".faq-item").forEach((item) => {
+    const question = item.querySelector(".faq-question");
+    if (!question) return;
+
+    question.setAttribute("aria-expanded", "false");
+
+    question.addEventListener("click", (e) => {
       e.preventDefault();
-      e.stopPropagation();
-      
-      // Prevent rapid clicking
-      if (isAnimating) {
-        return;
-      }
-      
-      const isExpanded = question.getAttribute('aria-expanded') === 'true';
-      
-      // Toggle current FAQ (allow multiple FAQs to be open)
-      isAnimating = true;
-      
-      if (isExpanded) {
-        // Close - get current height
-        const startHeight = answer.scrollHeight;
-        
-        // Set explicit height first (no transition yet)
-        answer.style.maxHeight = startHeight + 'px';
-        answer.style.padding = '0 1.5rem 1.5rem 1.5rem';
-        answer.style.transition = 'none';
-        
-        // Update state
-        question.setAttribute('aria-expanded', 'false');
-        item.removeAttribute('data-expanded');
-        
-        // Update other elements
-        item.style.transition = 'border 0.15s ease, box-shadow 0.15s ease, background 0.15s ease';
-        question.style.transition = 'background 0.15s ease, color 0.15s ease';
-        const icon = question.querySelector('.faq-icon');
-        if (icon) icon.style.transition = 'background 0.15s ease, box-shadow 0.15s ease';
-        const iconSvg = icon?.querySelector('svg');
-        if (iconSvg) iconSvg.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 1, 1)';
-        
-        // Force reflow to apply the height
-        void answer.offsetHeight;
-        
-        // Now add transition and animate to 0
-        answer.style.transition = 'max-height 0.3s cubic-bezier(0.4, 0, 1, 1), padding 0.3s cubic-bezier(0.4, 0, 1, 1)';
-        answer.style.maxHeight = '0';
-        answer.style.padding = '0 1.5rem';
-        
-        // Cleanup after animation
-        setTimeout(() => {
-          answer.style.transition = '';
-          answer.style.maxHeight = '';
-          answer.style.padding = '';
-          item.style.transition = '';
-          question.style.transition = '';
-          if (icon) icon.style.transition = '';
-          if (iconSvg) iconSvg.style.transition = '';
-          isAnimating = false;
-        }, 300);
+      const isOpen = item.classList.contains("is-open");
+
+      if (isOpen) {
+        item.classList.remove("is-open");
+        question.setAttribute("aria-expanded", "false");
+        item.removeAttribute("data-expanded");
       } else {
-        // Open
-        answer.style.transition = 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-        answer.style.maxHeight = '0';
-        answer.style.padding = '0 1.5rem';
-        
-        // Update state
-        question.setAttribute('aria-expanded', 'true');
-        item.setAttribute('data-expanded', 'true');
-        
-        // Restore transitions
-        item.style.transition = '';
-        question.style.transition = '';
-        const icon = question.querySelector('.faq-icon');
-        if (icon) icon.style.transition = '';
-        const iconSvg = icon?.querySelector('svg');
-        if (iconSvg) iconSvg.style.transition = '';
-        
-        // Force reflow
-        void answer.offsetHeight;
-        
-        // Animate to open
-        answer.style.maxHeight = '2000px';
-        answer.style.padding = '0 1.5rem 1.5rem 1.5rem';
-        
-        // Reset animation lock
-        setTimeout(() => {
-          isAnimating = false;
-        }, 400);
+        item.classList.add("is-open");
+        question.setAttribute("aria-expanded", "true");
+        item.setAttribute("data-expanded", "true");
       }
-    }, true); // Use capture phase
+    });
   });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeCookieConsent();
+  initializePrivacyLightbox();
+  initializeFAQ();
+});

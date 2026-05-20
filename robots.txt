@@ -1,28 +1,18 @@
-# Allow all search engines to crawl the site
+# BenMen Digital — בנימין קונין | בונה אתרים
 User-agent: *
 Allow: /
 
-# Disallow access to sensitive directories
-Disallow: /admin/
-Disallow: /private/
-Disallow: /temp/
-Disallow: /backup/
-
-# Disallow access to specific file types
-Disallow: /*.php$
-Disallow: /*.sql$
-Disallow: /*.log$
-
-# Allow access to important assets
-Allow: /*.css$
-Allow: /*.js$
-Allow: /*.jpg$
-Allow: /*.png$
-Allow: /*.gif$
-Allow: /*.svg$
-Allow: /*.ico$
-
-# Specify the location of the sitemap
+# Sitemap
 Sitemap: https://benmenofficial.github.io/BenMenSite/sitemap.xml
 
-# Crawl-delay: 10  # Optional: Limit crawl rate to 1 request per 10 seconds 
+# Allow assets for rich results
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.ico$
+Allow: /*.webp$
+
+# Block non-public paths (if added later)
+Disallow: /admin/
+Disallow: /private/

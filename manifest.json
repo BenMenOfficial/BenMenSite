@@ -1,29 +1,28 @@
 {
-  "name": "BenMen - האתר הרשמי",
+  "name": "בנימין קונין בןמן | BenMen - בונה אתרים וגרפיקאי",
   "short_name": "BenMen",
-  "description": "בנימין קונין - מפתח אתרים, מתכנת ומעצב",
-  "start_url": "/",
+  "description": "בנימין קונין (בןמן, בן מן, בנמן) — בונה אתרים, גרפיקאי, בניית אתרים, SEO ושיווק דיגיטלי",
+  "start_url": "https://benmenofficial.github.io/BenMenSite/",
+  "scope": "https://benmenofficial.github.io/BenMenSite/",
   "display": "standalone",
-  "background_color": "#020b1c",
-  "theme_color": "#020b1c",
+  "background_color": "#080c14",
+  "theme_color": "#080c14",
   "orientation": "portrait-primary",
+  "lang": "he-IL",
+  "dir": "rtl",
   "icons": [
     {
       "src": "ללא רקע 26.png",
-      "sizes": "any",
-      "type": "image/png"
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "ללא רקע 26.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "ללא רקע 26.png",
+      "src": "LOGO2026.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "categories": ["business", "productivity", "utilities"],
-  "lang": "he-IL"
+  "categories": ["business", "productivity", "design"],
+  "keywords": ["בנימין קונין", "בןמן", "בונה אתרים", "בניית אתרים", "גרפיקאי", "BenMen"]
 }
