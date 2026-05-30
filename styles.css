@@ -256,7 +256,7 @@ nav.scrolled {
 }
 
 main.container {
-  overflow-x: clip;
+  overflow-x: visible;
 }
 
 /* רקע מורחב לקצוות ה-container בלי 100vw (מונע גלילה אופקית) */
@@ -305,7 +305,8 @@ section h2 {
 header#home {
   min-height: calc(100vh - var(--nav-h));
   margin-top: var(--nav-h);
-  padding: 4rem 0 5rem;
+  margin-inline: -3rem;
+  padding: 4rem 3rem 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -343,6 +344,7 @@ header#home::before {
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: center;
+  overflow: visible;
 }
 
 .hero-content {
@@ -471,26 +473,155 @@ header#home::before {
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: visible;
 }
 
 .hero-visual::before {
   content: "";
   position: absolute;
-  width: 85%;
-  height: 85%;
-  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  width: 72%;
+  height: 72%;
+  background: radial-gradient(
+    circle,
+    rgba(103, 232, 249, 0.75) 0%,
+    rgba(34, 211, 238, 0.48) 28%,
+    rgba(56, 189, 248, 0.22) 52%,
+    transparent 72%
+  );
   border-radius: 50%;
-  filter: blur(40px);
-  opacity: 0.5;
+  filter: blur(36px);
+  opacity: 0.68;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  animation: neon-pulse-core 4s ease-in-out infinite;
+  transition: opacity 1.8s ease-in-out, filter 1.8s ease-in-out, transform 1.8s ease-in-out;
+}
+
+.hero-visual::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 115%;
+  height: 115%;
+  background: radial-gradient(
+    circle,
+    transparent 38%,
+    rgba(34, 211, 238, 0.32) 52%,
+    rgba(103, 232, 249, 0.14) 65%,
+    transparent 82%
+  );
+  border-radius: 50%;
+  filter: blur(52px);
+  opacity: 0.52;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  animation: neon-pulse-halo 5.5s ease-in-out infinite reverse;
+  transition: opacity 1.8s ease-in-out, filter 1.8s ease-in-out, transform 1.8s ease-in-out;
+}
+
+.hero-visual:hover::before {
+  animation-play-state: paused;
+  opacity: 0.88;
+  filter: blur(42px);
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+.hero-visual:hover::after {
+  animation-play-state: paused;
+  opacity: 0.72;
+  filter: blur(58px);
+  transform: translate(-50%, -50%) scale(1.03);
 }
 
 .home-logo {
   position: relative;
+  z-index: 1;
   max-width: 320px;
   width: 100%;
   margin: 0 auto;
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
+  filter:
+    drop-shadow(0 0 12px rgba(103, 232, 249, 0.45))
+    drop-shadow(0 0 26px rgba(34, 211, 238, 0.28))
+    drop-shadow(0 0 44px rgba(56, 189, 248, 0.14))
+    drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
   animation: float-logo 6s ease-in-out infinite;
+  transition: filter 1.8s ease-in-out, transform 1.8s ease-in-out;
+  cursor: pointer;
+}
+
+.home-logo::before {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  background: radial-gradient(
+    circle,
+    rgba(165, 243, 252, 0.65) 0%,
+    rgba(34, 211, 238, 0.38) 35%,
+    rgba(56, 189, 248, 0.1) 58%,
+    transparent 72%
+  );
+  border-radius: 50%;
+  filter: blur(28px);
+  z-index: -1;
+  pointer-events: none;
+  animation: neon-pulse-logo 4s ease-in-out infinite;
+  transition: opacity 1.8s ease-in-out, transform 1.8s ease-in-out, filter 1.8s ease-in-out;
+}
+
+.hero-visual:hover .home-logo {
+  animation-play-state: paused;
+  transform: scale(1.015);
+  filter:
+    drop-shadow(0 0 16px rgba(103, 232, 249, 0.58))
+    drop-shadow(0 0 32px rgba(34, 211, 238, 0.36))
+    drop-shadow(0 0 52px rgba(56, 189, 248, 0.18))
+    drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
+}
+
+.hero-visual:hover .home-logo::before {
+  animation-play-state: paused;
+  opacity: 0.82;
+  transform: scale(1.03);
+  filter: blur(32px);
+}
+
+@keyframes neon-pulse-logo {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: scale(0.97);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes neon-pulse-core {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: translate(-50%, -50%) scale(0.97);
+  }
+  50% {
+    opacity: 0.72;
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+}
+
+@keyframes neon-pulse-halo {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translate(-50%, -50%) scale(0.98);
+  }
+  50% {
+    opacity: 0.62;
+    transform: translate(-50%, -50%) scale(1.02);
+  }
 }
 
 @keyframes float-logo {
@@ -501,10 +632,6 @@ header#home::before {
   50% {
     transform: translateY(-12px);
   }
-}
-
-.home-logo:hover {
-  transform: scale(1.03);
 }
 
 .home-logo::after {
@@ -1953,7 +2080,8 @@ section.reveal-visible {
   }
 
   header#home {
-    padding: 2.5rem 0 3rem;
+    margin-inline: -1rem;
+    padding: 2.5rem 1rem 3rem;
     min-height: auto;
   }
 }
