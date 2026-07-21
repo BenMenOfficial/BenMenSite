@@ -1,6 +1,199 @@
 // Cookie consent & Google Analytics (נטען רק בהסכמה)
 const COOKIE_CONSENT_KEY = "benmen-cookie-consent";
 const GA_MEASUREMENT_ID = "G-7XWXNBW6L1";
+const ACCESSIBILITY_STORAGE_KEY = "benmen-accessibility-settings";
+const defaultAccessibilitySettings = {
+  contrast: false,
+  textScale: 1,
+  linksHighlight: false,
+  reducedMotion: false,
+  readableFont: false,
+};
+
+let accessibilitySettings = { ...defaultAccessibilitySettings };
+
+function getAccessibilitySettings() {
+  try {
+    const storedValue = localStorage.getItem(ACCESSIBILITY_STORAGE_KEY);
+    if (!storedValue) return { ...defaultAccessibilitySettings };
+    const parsed = JSON.parse(storedValue);
+    return { ...defaultAccessibilitySettings, ...parsed };
+  } catch {
+    return { ...defaultAccessibilitySettings };
+  }
+}
+
+function saveAccessibilitySettings() {
+  try {
+    localStorage.setItem(
+      ACCESSIBILITY_STORAGE_KEY,
+      JSON.stringify(accessibilitySettings),
+    );
+  } catch {
+    /* ignore */
+  }
+}
+
+function applyAccessibilitySettings(settings = accessibilitySettings) {
+  accessibilitySettings = { ...defaultAccessibilitySettings, ...settings };
+
+  document.body.classList.toggle(
+    "accessibility-contrast",
+    Boolean(accessibilitySettings.contrast),
+  );
+  document.body.classList.toggle(
+    "accessibility-links-highlight",
+    Boolean(accessibilitySettings.linksHighlight),
+  );
+  document.body.classList.toggle(
+    "accessibility-reduced-motion",
+    Boolean(accessibilitySettings.reducedMotion),
+  );
+  document.body.classList.toggle(
+    "accessibility-font-readable",
+    Boolean(accessibilitySettings.readableFont),
+  );
+
+  document.documentElement.style.setProperty(
+    "--accessibility-scale",
+    String(accessibilitySettings.textScale),
+  );
+
+  const textScaleEl = document.getElementById("accessibility-text-scale");
+  if (textScaleEl) {
+    textScaleEl.textContent = `${Math.round(accessibilitySettings.textScale * 100)}%`;
+  }
+
+  const contrastInput = document.getElementById("accessibility-contrast");
+  const linksInput = document.getElementById("accessibility-links-highlight");
+  const motionInput = document.getElementById("accessibility-reduced-motion");
+  const fontInput = document.getElementById("accessibility-readable-font");
+
+  if (contrastInput)
+    contrastInput.checked = Boolean(accessibilitySettings.contrast);
+  if (linksInput)
+    linksInput.checked = Boolean(accessibilitySettings.linksHighlight);
+  if (motionInput)
+    motionInput.checked = Boolean(accessibilitySettings.reducedMotion);
+  if (fontInput)
+    fontInput.checked = Boolean(accessibilitySettings.readableFont);
+
+  saveAccessibilitySettings();
+}
+
+function closeAccessibilityPanel() {
+  const panel = document.getElementById("accessibility-menu");
+  const toggle = document.getElementById("accessibility-toggle");
+  if (!panel) return;
+  panel.classList.remove("is-open");
+  panel.setAttribute("aria-hidden", "true");
+  if (toggle) toggle.setAttribute("aria-expanded", "false");
+
+  const activeElement = document.activeElement;
+  if (activeElement && panel.contains(activeElement) && toggle) {
+    toggle.focus();
+  }
+}
+
+function openAccessibilityPanel() {
+  const panel = document.getElementById("accessibility-menu");
+  const toggle = document.getElementById("accessibility-toggle");
+  if (!panel || !toggle) return;
+  panel.classList.add("is-open");
+  panel.setAttribute("aria-hidden", "false");
+  toggle.setAttribute("aria-expanded", "true");
+
+  const firstFocusable = panel.querySelector(
+    "button, input, a, select, textarea",
+  );
+  if (firstFocusable) firstFocusable.focus();
+}
+
+function initializeAccessibilityPanel() {
+  const toggle = document.getElementById("accessibility-toggle");
+  const closeButton = document.getElementById("accessibility-close");
+  const panel = document.getElementById("accessibility-menu");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = panel?.classList.contains("is-open");
+    if (isOpen) {
+      closeAccessibilityPanel();
+    } else {
+      openAccessibilityPanel();
+    }
+  });
+
+  closeButton?.addEventListener("click", closeAccessibilityPanel);
+
+  document.addEventListener("click", (event) => {
+    if (event.target instanceof Element) {
+      const clickedInsidePanel = event.target.closest(".accessibility-panel");
+      const clickedToggle = event.target.closest(".accessibility-toggle");
+      if (!clickedInsidePanel && !clickedToggle) {
+        closeAccessibilityPanel();
+      }
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeAccessibilityPanel();
+    }
+  });
+
+  document
+    .getElementById("accessibility-contrast")
+    ?.addEventListener("change", (event) => {
+      accessibilitySettings.contrast = Boolean(event.target.checked);
+      applyAccessibilitySettings(accessibilitySettings);
+    });
+
+  document
+    .getElementById("accessibility-links-highlight")
+    ?.addEventListener("change", (event) => {
+      accessibilitySettings.linksHighlight = Boolean(event.target.checked);
+      applyAccessibilitySettings(accessibilitySettings);
+    });
+
+  document
+    .getElementById("accessibility-reduced-motion")
+    ?.addEventListener("change", (event) => {
+      accessibilitySettings.reducedMotion = Boolean(event.target.checked);
+      applyAccessibilitySettings(accessibilitySettings);
+    });
+
+  document
+    .getElementById("accessibility-readable-font")
+    ?.addEventListener("change", (event) => {
+      accessibilitySettings.readableFont = Boolean(event.target.checked);
+      applyAccessibilitySettings(accessibilitySettings);
+    });
+
+  document.querySelectorAll("[data-scale-action]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const action = button.getAttribute("data-scale-action");
+      if (action === "increase") {
+        accessibilitySettings.textScale = Math.min(
+          2,
+          Number((accessibilitySettings.textScale + 0.1).toFixed(2)),
+        );
+      } else {
+        accessibilitySettings.textScale = Math.max(
+          0.9,
+          Number((accessibilitySettings.textScale - 0.1).toFixed(2)),
+        );
+      }
+      applyAccessibilitySettings(accessibilitySettings);
+    });
+  });
+
+  document
+    .getElementById("accessibility-reset")
+    ?.addEventListener("click", () => {
+      accessibilitySettings = { ...defaultAccessibilitySettings };
+      applyAccessibilitySettings(accessibilitySettings);
+    });
+}
 
 function getCookieConsent() {
   try {
@@ -80,7 +273,9 @@ function initializeCookieConsent() {
   const footerPrivacyBtn = document.getElementById("footer-privacy-link");
 
   acceptBtn?.addEventListener("click", () => applyCookieConsent("accepted"));
-  essentialBtn?.addEventListener("click", () => applyCookieConsent("essential"));
+  essentialBtn?.addEventListener("click", () =>
+    applyCookieConsent("essential"),
+  );
   privacyBtn?.addEventListener("click", openPrivacyFromCookie);
   settingsBtn?.addEventListener("click", () => showCookieBanner());
   footerPrivacyBtn?.addEventListener("click", openPrivacyFromCookie);
@@ -118,7 +313,9 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     const navEl = document.getElementById("main-nav");
     const headerOffset = navEl ? 80 : 0;
     const top =
-      targetElement.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      targetElement.getBoundingClientRect().top +
+      window.pageYOffset -
+      headerOffset;
     window.scrollTo({ top, behavior: "smooth" });
   });
 });
@@ -165,7 +362,7 @@ const revealObserver = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+  { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
 );
 
 sections.forEach((section) => {
@@ -236,7 +433,8 @@ function createConfetti() {
     const confetti = document.createElement("div");
     confetti.className = "confetti";
     confetti.style.left = `${Math.random() * 100}%`;
-    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.backgroundColor =
+      colors[Math.floor(Math.random() * colors.length)];
     confetti.style.animation = `confetti-fall ${2 + Math.random() * 2}s ease-out forwards`;
     confetti.style.animationDelay = `${Math.random() * 0.3}s`;
     document.body.appendChild(confetti);
@@ -291,13 +489,17 @@ function openLightboxFromItem(item) {
     lightboxImg.alt = img?.alt || "תצוגת פרויקט";
   }
   if (lightboxTitle)
-    lightboxTitle.textContent = item.getAttribute("data-title") || img?.alt || "פרויקט";
+    lightboxTitle.textContent =
+      item.getAttribute("data-title") || img?.alt || "פרויקט";
 
   const explicitDesc = item.getAttribute("data-description") || "";
   if (lightboxDesc) {
     lightboxDesc.textContent = explicitDesc
       ? explicitDesc
-      : generateAutoDescription(img?.alt || "", item.getAttribute("data-tags") || "");
+      : generateAutoDescription(
+          img?.alt || "",
+          item.getAttribute("data-tags") || "",
+        );
   }
 
   if (lightboxTags) {
@@ -332,7 +534,10 @@ function openLightboxFromItem(item) {
 
 function generateAutoDescription(altText, tagsStr) {
   const normalized = (altText || "").trim();
-  const tags = (tagsStr || "").split(",").map((t) => t.trim()).filter(Boolean);
+  const tags = (tagsStr || "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
   const tagsSentence = tags.length ? ` טכנולוגיות: ${tags.join(", ")}.` : "";
   if (normalized.includes("לוגו"))
     return `עיצוב לוגו ממותג עם קו נקי ופלטת צבעים עקבית.${tagsSentence}`;
@@ -361,7 +566,8 @@ lightbox?.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && lightbox?.classList.contains("active")) closeLightbox();
+  if (e.key === "Escape" && lightbox?.classList.contains("active"))
+    closeLightbox();
 });
 
 // Stats counter
@@ -395,7 +601,7 @@ if (statsSection) {
         statsObserver.unobserve(entry.target);
       });
     },
-    { threshold: 0.4 }
+    { threshold: 0.4 },
   );
   statsObserver.observe(statsSection);
 }
@@ -436,6 +642,9 @@ function initializeFAQ() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  accessibilitySettings = getAccessibilitySettings();
+  applyAccessibilitySettings(accessibilitySettings);
+  initializeAccessibilityPanel();
   initializeCookieConsent();
   initializePrivacyLightbox();
   initializeFAQ();

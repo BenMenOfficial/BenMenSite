@@ -57,7 +57,7 @@ body {
   color: var(--text);
   direction: rtl;
   line-height: 1.7;
-  font-size: 1.05rem;
+  font-size: calc(1.05rem * var(--accessibility-scale, 1));
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -67,8 +67,16 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(34, 211, 238, 0.08), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(99, 102, 241, 0.05), transparent);
+    radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      rgba(34, 211, 238, 0.08),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 100% 50%,
+      rgba(99, 102, 241, 0.05),
+      transparent
+    );
   pointer-events: none;
   z-index: -2;
 }
@@ -86,6 +94,208 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--bg);
+}
+
+body.accessibility-contrast {
+  --bg: #000000;
+  --bg-elevated: #111111;
+  --bg-card: #000000;
+  --border: #ffea00;
+  --border-accent: #ffea00;
+  --text: #ffea00;
+  --text-muted: #ffffff;
+  --accent: #ffea00;
+  --accent-dim: rgba(255, 234, 0, 0.16);
+  --accent-glow: rgba(255, 234, 0, 0.25);
+  --gold: #ffea00;
+  --success: #ffea00;
+}
+
+body.accessibility-contrast a,
+body.accessibility-contrast button,
+body.accessibility-contrast input,
+body.accessibility-contrast textarea {
+  color: var(--text);
+}
+
+body.accessibility-links-highlight a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 0.16em !important;
+  text-underline-offset: 0.2em !important;
+  font-weight: 700 !important;
+}
+
+body.accessibility-font-readable {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body.accessibility-reduced-motion *,
+body.accessibility-reduced-motion *::before,
+body.accessibility-reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+.accessibility-toggle {
+  position: fixed;
+  left: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 1700;
+  width: 54px;
+  height: 54px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+}
+
+.accessibility-toggle:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+}
+
+.accessibility-panel {
+  position: fixed;
+  left: 1.25rem;
+  bottom: 5.25rem;
+  z-index: 1600;
+  width: min(320px, calc(100vw - 2rem));
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(8, 12, 20, 0.95);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(16px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition:
+    opacity var(--transition),
+    transform var(--transition);
+}
+
+.accessibility-panel.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.accessibility-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.accessibility-panel-header h2 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.accessibility-close,
+.accessibility-scale-btn,
+.accessibility-reset,
+.accessibility-link {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.accessibility-close {
+  width: 34px;
+  height: 34px;
+}
+
+.accessibility-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.accessibility-option:first-of-type {
+  border-top: 0;
+}
+
+.accessibility-option-label,
+.accessibility-option-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.accessibility-scale-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.accessibility-scale-btn {
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+}
+
+.accessibility-text-scale {
+  min-width: 48px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.accessibility-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.65rem;
+}
+
+.accessibility-reset,
+.accessibility-link {
+  padding: 0.6rem 0.8rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.accessibility-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .accessibility-toggle {
+    left: 1rem;
+    bottom: 1rem;
+  }
+
+  .accessibility-panel {
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    bottom: 4.75rem;
+  }
 }
 
 /* Loading */
@@ -127,7 +337,9 @@ nav {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  transition: background var(--transition), box-shadow var(--transition);
+  transition:
+    background var(--transition),
+    box-shadow var(--transition);
 }
 
 nav.scrolled {
@@ -203,7 +415,9 @@ nav.scrolled {
   font-weight: 500;
   padding: 0.5rem 0.85rem;
   border-radius: var(--radius-sm);
-  transition: color var(--transition), background var(--transition);
+  transition:
+    color var(--transition),
+    background var(--transition);
   white-space: nowrap;
 }
 
@@ -238,7 +452,9 @@ nav.scrolled {
   font-size: 1.25rem;
   align-items: center;
   justify-content: center;
-  transition: border-color var(--transition), background var(--transition);
+  transition:
+    border-color var(--transition),
+    background var(--transition);
 }
 
 .menu-toggle:hover {
@@ -434,7 +650,10 @@ header#home::before {
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
-  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
   border: none;
   cursor: pointer;
   min-width: auto;
@@ -496,7 +715,10 @@ header#home::before {
   z-index: 0;
   transform: translate(-50%, -50%);
   animation: neon-pulse-core 4s ease-in-out infinite;
-  transition: opacity 1.8s ease-in-out, filter 1.8s ease-in-out, transform 1.8s ease-in-out;
+  transition:
+    opacity 1.8s ease-in-out,
+    filter 1.8s ease-in-out,
+    transform 1.8s ease-in-out;
 }
 
 .hero-visual::after {
@@ -519,7 +741,10 @@ header#home::before {
   z-index: 0;
   transform: translate(-50%, -50%);
   animation: neon-pulse-halo 5.5s ease-in-out infinite reverse;
-  transition: opacity 1.8s ease-in-out, filter 1.8s ease-in-out, transform 1.8s ease-in-out;
+  transition:
+    opacity 1.8s ease-in-out,
+    filter 1.8s ease-in-out,
+    transform 1.8s ease-in-out;
 }
 
 .hero-visual:hover::before {
@@ -542,13 +767,14 @@ header#home::before {
   max-width: 320px;
   width: 100%;
   margin: 0 auto;
-  filter:
-    drop-shadow(0 0 12px rgba(103, 232, 249, 0.45))
+  filter: drop-shadow(0 0 12px rgba(103, 232, 249, 0.45))
     drop-shadow(0 0 26px rgba(34, 211, 238, 0.28))
     drop-shadow(0 0 44px rgba(56, 189, 248, 0.14))
     drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
   animation: float-logo 6s ease-in-out infinite;
-  transition: filter 1.8s ease-in-out, transform 1.8s ease-in-out;
+  transition:
+    filter 1.8s ease-in-out,
+    transform 1.8s ease-in-out;
   cursor: pointer;
 }
 
@@ -568,14 +794,16 @@ header#home::before {
   z-index: -1;
   pointer-events: none;
   animation: neon-pulse-logo 4s ease-in-out infinite;
-  transition: opacity 1.8s ease-in-out, transform 1.8s ease-in-out, filter 1.8s ease-in-out;
+  transition:
+    opacity 1.8s ease-in-out,
+    transform 1.8s ease-in-out,
+    filter 1.8s ease-in-out;
 }
 
 .hero-visual:hover .home-logo {
   animation-play-state: paused;
   transform: scale(1.015);
-  filter:
-    drop-shadow(0 0 16px rgba(103, 232, 249, 0.58))
+  filter: drop-shadow(0 0 16px rgba(103, 232, 249, 0.58))
     drop-shadow(0 0 32px rgba(34, 211, 238, 0.36))
     drop-shadow(0 0 52px rgba(56, 189, 248, 0.18))
     drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
@@ -657,7 +885,9 @@ header#home::before {
   border-radius: var(--radius-lg);
   padding: 1.75rem 1.5rem;
   text-align: center;
-  transition: border-color var(--transition), transform var(--transition);
+  transition:
+    border-color var(--transition),
+    transform var(--transition);
 }
 
 .stat-item:hover {
@@ -721,7 +951,9 @@ header#home::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: border-color var(--transition), transform var(--transition);
+  transition:
+    border-color var(--transition),
+    transform var(--transition);
 }
 
 .why-item::before {
@@ -786,7 +1018,9 @@ header#home::before {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: border-color var(--transition), transform var(--transition);
+  transition:
+    border-color var(--transition),
+    transform var(--transition);
 }
 
 .feature::after {
@@ -958,7 +1192,10 @@ header#home::before {
   border-radius: 999px;
   font-size: 0.9rem;
   color: var(--text-muted);
-  transition: border-color var(--transition), color var(--transition), background var(--transition);
+  transition:
+    border-color var(--transition),
+    color var(--transition),
+    background var(--transition);
 }
 
 .skills-grid li:hover {
@@ -997,7 +1234,9 @@ header#home::before {
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   padding: 2.5rem;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
 }
 
 .service-card::before {
@@ -1006,7 +1245,11 @@ header#home::before {
 
 .featured-service {
   border-color: var(--border-accent);
-  background: linear-gradient(145deg, var(--bg-card) 0%, rgba(34, 211, 238, 0.04) 100%);
+  background: linear-gradient(
+    145deg,
+    var(--bg-card) 0%,
+    rgba(34, 211, 238, 0.04) 100%
+  );
 }
 
 .service-card:hover {
@@ -1092,7 +1335,10 @@ header#home::before {
   background: var(--bg-card);
   border: 1px solid var(--border);
   cursor: pointer;
-  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
   width: auto;
   height: auto;
   flex: unset;
@@ -1330,7 +1576,9 @@ form::before {
   color: var(--text);
   font-family: var(--font-body);
   font-size: 1rem;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
   user-select: text;
 }
 
@@ -1377,7 +1625,9 @@ form::before {
   font-weight: 600;
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
   box-shadow: 0 4px 16px var(--accent-glow);
   width: auto;
   min-width: 200px;
@@ -1692,7 +1942,9 @@ form::before {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background var(--transition), color var(--transition);
+  transition:
+    background var(--transition),
+    color var(--transition);
 }
 
 .faq-icon svg {
@@ -1808,7 +2060,9 @@ footer#social {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color var(--transition), transform var(--transition);
+  transition:
+    border-color var(--transition),
+    transform var(--transition);
   box-shadow: none;
 }
 
@@ -1860,7 +2114,9 @@ footer#social {
 section.reveal-ready {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
 }
 
 section.reveal-visible {
@@ -2125,7 +2381,9 @@ body.cookie-banner-open {
   pointer-events: none;
   opacity: 0;
   transform: translateY(100%);
-  transition: opacity var(--transition), transform var(--transition);
+  transition:
+    opacity var(--transition),
+    transform var(--transition);
 }
 
 .cookie-banner.is-visible {
@@ -2199,7 +2457,10 @@ body.cookie-banner-open {
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: background var(--transition), border-color var(--transition), color var(--transition);
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
 }
 
 .cookie-btn-primary {
